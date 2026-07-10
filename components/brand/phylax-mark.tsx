@@ -1,0 +1,36 @@
+import { cn } from "@/lib/utils";
+
+export function PhylaxMark({ className, compact = false }: { className?: string; compact?: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 72 86"
+      role="img"
+      aria-label="Phylax sentinel mark"
+      className={cn("h-10 w-10", className)}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M36 2.8 52.2 12v14.1l13.2 6.8v25.6c0 12.2-8.9 21.5-29.4 25.7C15.5 80 6.6 70.7 6.6 58.5V32.9l13.2-6.8V12L36 2.8Z"
+        fill="var(--logo-fill)"
+      />
+      <path
+        d="M19.8 12 36 2.8 52.2 12v14.1L36 17.7 19.8 26.1V12Z"
+        fill="var(--logo-fill)"
+      />
+      <path
+        d="M16.8 25.1 6.6 32.9v25.6c0 9.2 5 16.6 16.2 21.3V40.5L36 33.2l13.2 7.3v24.7c7.3-4.1 10.2-9.9 10.2-16.7V32.9l-10.2-7.8v8.7L36 26.9l-19.2 10V25.1Z"
+        fill="var(--logo-fill)"
+      />
+      <path
+        d="M30.6 42.7 43.8 50v10.4l-13.2 7.3v-25Z"
+        fill="var(--logo-cutout)"
+      />
+      <path
+        d="M30.6 29.6 36 26.8l5.4 2.8v5.9L36 32.7l-5.4 2.8v-5.9Z"
+        fill="var(--logo-cutout)"
+      />
+      {!compact && <path d="M34 9.8h4v4h-4z" fill="var(--logo-accent)" />}
+    </svg>
+  );
+}
