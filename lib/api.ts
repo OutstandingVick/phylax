@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 export function requestId(request?: Request) {
+  if (process.env.GITHUB_PAGES === "true") return "req_static_export";
   return request?.headers.get("x-request-id") ?? `req_${crypto.randomUUID()}`;
 }
 

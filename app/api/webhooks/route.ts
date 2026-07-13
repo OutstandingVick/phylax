@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { fail, ok } from "@/lib/api";
 
+export const dynamic = "force-static";
+
 const schema = z.object({
   url: z.string().url(),
   events: z.array(z.string()).min(1)

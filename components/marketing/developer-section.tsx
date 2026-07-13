@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CheckCircle2 } from "lucide-react";
+import Link from "next/link";
 import { Tabs } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 
@@ -38,7 +39,7 @@ export function DeveloperSection() {
         <p className="text-xs font-black uppercase tracking-[0.18em] text-primary">DEVELOPER FIRST</p>
         <h2 className="mt-5 font-display text-3xl font-black">Add portfolio guardrails to any agent.</h2>
         <p className="mt-4 text-sm leading-6 text-main">Use typed APIs, webhooks and A2MCP-compatible responses to scan portfolios, validate proposed actions and automate risk-aware workflows.</p>
-        <a href="/dashboard/docs" className="mt-7 inline-flex text-sm font-black text-primary">Read the documentation →</a>
+        <Link href="/dashboard/docs" className="mt-7 inline-flex text-sm font-black text-primary">Read the documentation →</Link>
       </div>
       <Card className="p-5 shadow-none">
         <Tabs tabs={["Agent", "Risk", "Rebalancing", "Payments"]} active={active} onChange={setActive} />

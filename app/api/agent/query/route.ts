@@ -3,6 +3,8 @@ import { agentQuerySchema } from "@/lib/agent/schema";
 import { routeAgentIntent } from "@/lib/agent/intent-router";
 import { fail } from "@/lib/api";
 
+export const dynamic = "force-static";
+
 export async function POST(request: Request) {
   let body: unknown;
   try {

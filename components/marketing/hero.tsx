@@ -99,7 +99,7 @@ export function Hero() {
           <Card className="absolute bottom-10 left-[19rem] z-20 w-[390px] p-4">
             <div className="flex items-center justify-between">
               <h3 className="font-display font-black">Rebalance Simulator</h3>
-              <a className="text-xs font-black text-primary" href="/dashboard/rebalance">View Full Simulator →</a>
+              <Link className="text-xs font-black text-primary" href="/dashboard/rebalance">View Full Simulator →</Link>
             </div>
             <div className="mt-4 grid grid-cols-2 gap-4 text-xs">
               <div className="space-y-2">

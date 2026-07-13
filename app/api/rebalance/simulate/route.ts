@@ -3,6 +3,8 @@ import { holdings } from "@/lib/mock/holdings";
 import { simulateRebalance } from "@/lib/rebalance/simulator";
 import { fail, ok } from "@/lib/api";
 
+export const dynamic = "force-static";
+
 const schema = z.object({
   walletAddress: z.string().min(6),
   strategy: z.enum(["defensive", "balanced", "momentum", "mean-reversion", "custom"]).default("defensive"),

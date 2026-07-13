@@ -1,4 +1,5 @@
 import { Bot, CreditCard, Eye, LockKeyhole, Radar, RotateCw } from "lucide-react";
+import Link from "next/link";
 
 const features = [
   ["Risk Guardian", "Continuous assessment across market, liquidity, counterparty, and concentration risk.", Radar],
@@ -20,7 +21,7 @@ export function FeatureGrid() {
             </div>
             <h3 className="mt-6 font-display text-lg font-bold">{title}</h3>
             <p className="mt-3 text-sm leading-6 text-main">{description}</p>
-            <a href="/dashboard/docs" className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-primary">Learn more <span>→</span></a>
+            <Link href="/dashboard/docs" className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-primary">Learn more <span>→</span></Link>
           </div>
         ))}
       </div>

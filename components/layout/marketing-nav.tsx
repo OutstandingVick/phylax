@@ -13,10 +13,16 @@ export function MarketingNav() {
         <PhylaxLogo />
         <nav className="hidden items-center gap-11 text-sm font-semibold text-main md:flex">
           {links.map((link) => (
-            <a key={link} href={link === "Docs" ? "/dashboard/docs" : `#${link.toLowerCase().replaceAll(" ", "-")}`} className="inline-flex items-center gap-1 hover:text-primary">
-              {link}
-              {link === "Product" && <ChevronDown className="h-3 w-3" />}
-            </a>
+            link === "Docs" ? (
+              <Link key={link} href="/dashboard/docs" className="inline-flex items-center gap-1 hover:text-primary">
+                {link}
+              </Link>
+            ) : (
+              <a key={link} href={`#${link.toLowerCase().replaceAll(" ", "-")}`} className="inline-flex items-center gap-1 hover:text-primary">
+                {link}
+                {link === "Product" && <ChevronDown className="h-3 w-3" />}
+              </a>
+            )
           ))}
         </nav>
         <div className="flex items-center gap-3">
@@ -26,10 +32,16 @@ export function MarketingNav() {
       </div>
       <nav className="mx-auto flex max-w-[1440px] gap-7 overflow-x-auto border-t border-border px-6 py-3 text-xs font-bold text-main md:hidden">
         {links.map((link) => (
-          <a key={link} href={link === "Docs" ? "/dashboard/docs" : `#${link.toLowerCase().replaceAll(" ", "-")}`} className="inline-flex shrink-0 items-center gap-1 hover:text-primary">
-            {link}
-            {link === "Product" && <ChevronDown className="h-3 w-3" />}
-          </a>
+          link === "Docs" ? (
+            <Link key={link} href="/dashboard/docs" className="inline-flex shrink-0 items-center gap-1 hover:text-primary">
+              {link}
+            </Link>
+          ) : (
+            <a key={link} href={`#${link.toLowerCase().replaceAll(" ", "-")}`} className="inline-flex shrink-0 items-center gap-1 hover:text-primary">
+              {link}
+              {link === "Product" && <ChevronDown className="h-3 w-3" />}
+            </a>
+          )
         ))}
       </nav>
     </header>

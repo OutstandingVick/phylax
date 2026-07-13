@@ -3,6 +3,8 @@ import { createUptoSession } from "@/lib/payments/upto-demo";
 import { createX402Session } from "@/lib/payments/x402-demo";
 import { fail, ok } from "@/lib/api";
 
+export const dynamic = "force-static";
+
 const schema = z.object({
   type: z.enum(["upto", "x402"]),
   purpose: z.string().min(3),

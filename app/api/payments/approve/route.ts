@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { fail, ok } from "@/lib/api";
 
+export const dynamic = "force-static";
+
 const schema = z.object({
   paymentSessionId: z.string().min(5),
   approvedMaxAmount: z.string(),

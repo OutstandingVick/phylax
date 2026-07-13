@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+const isGithubPages = process.env.GITHUB_PAGES === "true";
+const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? (isGithubPages ? "https://outstandingvick.github.io/phylax" : "http://localhost:3000");
+
 export const metadata: Metadata = {
-  metadataBase: new URL("http://localhost:3000"),
+  metadataBase: new URL(appUrl),
   title: {
     default: "Phylax — Autonomous Guardian for xStocks & RWA Portfolios",
     template: "%s — Phylax"
@@ -21,8 +24,8 @@ export const metadata: Metadata = {
     description: "Before autonomous agents move tokenized capital, they should ask Phylax whether the action is safe."
   },
   icons: {
-    icon: "/brand/phylax-app-icon.svg",
-    apple: "/brand/phylax-app-icon.svg"
+    icon: `${isGithubPages ? "/phylax" : ""}/brand/phylax-app-icon.svg`,
+    apple: `${isGithubPages ? "/phylax" : ""}/brand/phylax-app-icon.svg`
   }
 };
 

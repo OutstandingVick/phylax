@@ -3,6 +3,8 @@ import { holdings, riskyApprovals } from "@/lib/mock/holdings";
 import { buildRiskScan } from "@/lib/risk/scoring";
 import { fail, ok } from "@/lib/api";
 
+export const dynamic = "force-static";
+
 const riskScanSchema = z.object({
   walletAddress: z.string().min(6),
   depth: z.enum(["basic", "deep"]).default("basic"),
