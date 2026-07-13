@@ -23,7 +23,8 @@ export const agentQuerySchema = z.object({
     .object({
       maxSingleAssetExposurePct: z.number().positive().max(100).default(30),
       maxSlippagePct: z.number().positive().max(10).default(0.5),
-      minStablecoinPct: z.number().min(0).max(100).optional()
+      minStablecoinPct: z.number().min(0).max(100).optional(),
+      blockedAssets: z.array(z.string()).optional()
     })
     .optional(),
   paymentSessionId: z.string().optional()
@@ -49,6 +50,7 @@ export interface AgentQueryInput {
     maxSingleAssetExposurePct: number;
     maxSlippagePct: number;
     minStablecoinPct?: number;
+    blockedAssets?: string[];
   };
   paymentSessionId?: string;
 }

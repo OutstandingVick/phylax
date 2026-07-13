@@ -22,7 +22,7 @@ export function AgentJsonPanel() {
         <h3 className="font-display font-bold">Agent-readable Output</h3>
         <p className="mt-1 text-sm text-muted">What another autonomous agent receives before moving capital.</p>
       </div>
-      <pre className="max-h-80 overflow-auto rounded-lg border border-border bg-[#07100d] p-4 text-xs leading-relaxed text-primary-soft">
+      <pre className="max-h-80 overflow-auto rounded-lg border border-border bg-surface p-4 text-xs leading-relaxed text-primary-soft">
         {JSON.stringify(agentOutput, null, 2)}
       </pre>
     </Card>

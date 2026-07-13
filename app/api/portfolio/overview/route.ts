@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
 import { portfolioOverview } from "@/lib/mock/portfolio";
+import { ok } from "@/lib/api";
 
-export async function GET() {
-  return NextResponse.json(portfolioOverview);
+export async function GET(request: Request) {
+  return ok(portfolioOverview, request);
 }

@@ -5,6 +5,7 @@ export interface OkxOnchainOsAdapter {
   getTokenRisk(address: string): Promise<{ address: string; riskScore: number }>;
   getMarketData(symbol: string): Promise<{ symbol: string; priceUsd: number; liquidityUsd: number }>;
   getSmartMoneySignals(symbol: string): Promise<{ symbol: string; signal: "neutral" | "accumulating" | "reducing" }>;
+  simulateTransaction(tx: unknown): Promise<{ ok: boolean; estimatedGasUsd: number; warnings: string[] }>;
   getTransactionSimulation(tx: unknown): Promise<{ ok: boolean; estimatedGasUsd: number; warnings: string[] }>;
 }
 
@@ -21,7 +22,10 @@ export const okxOnchainOsAdapter: OkxOnchainOsAdapter = {
   async getSmartMoneySignals(symbol) {
     return { symbol, signal: symbol.includes("TSLA") ? "reducing" : "neutral" };
   },
-  async getTransactionSimulation() {
+  async simulateTransaction() {
     return { ok: true, estimatedGasUsd: 0.82, warnings: ["Mock simulation only."] };
+  },
+  async getTransactionSimulation(tx) {
+    return this.simulateTransaction(tx);
   }
 };

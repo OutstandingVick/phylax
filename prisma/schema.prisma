@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id
+  email     String?
+  plan      String   @default("Free")
+  status    String   @default("demo")
+  createdAt DateTime @default(now())
+  wallets   Wallet[]
+}
+
+model Wallet {
+  id             String      @id
+  userId         String
+  address        String
+  chainId        String
+  label          String
+  connectionType String
+  createdAt      DateTime    @default(now())
+  user           User        @relation(fields: [userId], references: [id])
+  portfolios     Portfolio[]
+}
+
+model Portfolio {
+  id             String    @id
+  walletId       String
+  totalValueUsd  Float
+  pnl24hUsd      Float
+  pnl24hPct      Float
+  lastScannedAt  DateTime
+  wallet         Wallet    @relation(fields: [walletId], references: [id])
+  holdings       Holding[]
+  alerts         Alert[]
+  reports        Report[]
+}
+
+model Asset {
+  id       String    @id
+  symbol   String
+  name     String
+  category String
+  issuer   String?
+  holdings Holding[]
+}
+
+model Holding {
+  id            String    @id
+  portfolioId   String
+  assetId       String
+  quantity      String
+  valueUsd      Float
+  allocationPct Float
+  pnlPct        Float
+  portfolio     Portfolio @relation(fields: [portfolioId], references: [id])
+  asset         Asset     @relation(fields: [assetId], references: [id])
+}
+
+model Alert {
+  id                String    @id
+  portfolioId       String
+  type              String
+  severity          String
+  title             String
+  description       String
+  recommendedAction String
+  status            String
+  createdAt         DateTime  @default(now())
+  portfolio         Portfolio @relation(fields: [portfolioId], references: [id])
+}
+
+model PaymentSession {
+  id            String   @id
+  type          String
+  amountMax     String
+  amountCharged String?
+  currency      String
+  status        String
+  expiresAt     DateTime
+  createdAt     DateTime @default(now())
+}
+
+model Policy {
+  id                        String @id
+  walletId                  String
+  maxSingleAssetExposurePct Float
+  maxSlippagePct            Float
+  minStablecoinPct          Float
+  blockedAssets             String @default("[]")
+}
+
+model Report {
+  id            String    @id
+  portfolioId   String
+  type          String
+  summary       String
+  recommendations String
+  createdAt     DateTime  @default(now())
+  portfolio     Portfolio @relation(fields: [portfolioId], references: [id])
+}
+
+model AgentRequest {
+  id                 String   @id
+  requestingAgentId  String
+  intent             String
+  walletAddress      String
+  payload            String
+  status             String
+  createdAt          DateTime @default(now())
+}
+
+model AuditEvent {
+  id        String   @id
+  actor     String
+  action    String
+  metadata  String
+  createdAt DateTime @default(now())
+}

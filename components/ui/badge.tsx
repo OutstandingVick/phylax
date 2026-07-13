@@ -9,9 +9,9 @@ export function Badge({
 }: HTMLAttributes<HTMLSpanElement> & { tone?: "neutral" | "good" | "warn" | "bad" }) {
   const tones = {
     neutral: "border-border bg-surface-soft text-muted",
-    good: "border-primary/40 bg-primary/15 text-primary-soft",
-    warn: "border-warning/40 bg-warning/15 text-warning",
-    bad: "border-accent/40 bg-accent/15 text-accent"
+    good: "border-primary/30 bg-primary/10 text-primary",
+    warn: "border-warning/35 bg-warning/10 text-warning",
+    bad: "border-accent/35 bg-accent/10 text-accent"
   };
   const dots = {
     neutral: "bg-muted",

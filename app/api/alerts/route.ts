@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
 import { alerts } from "@/lib/mock/alerts";
+import { ok } from "@/lib/api";
 
-export async function GET() {
-  return NextResponse.json({ alerts });
+export async function GET(request: Request) {
+  return ok({ alerts }, request);
 }

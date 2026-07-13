@@ -15,6 +15,9 @@ export interface AgentResponse {
   report?: unknown;
   machineReadableSummary: Record<string, unknown>;
   nextActions: string[];
+  timestamp?: string;
+  dataFreshness?: string;
+  simulationOnly?: boolean;
 }
 
 export function paymentRequiredResponse(intent: AgentIntent): AgentResponse & {
@@ -26,6 +29,7 @@ export function paymentRequiredResponse(intent: AgentIntent): AgentResponse & {
     error: "payment_required",
     status: 402,
     requestId: `req_${crypto.randomUUID()}`,
+    timestamp: new Date().toISOString(),
     intent,
     decision: "requires_payment",
     confidence: "high",

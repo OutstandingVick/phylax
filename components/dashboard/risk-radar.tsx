@@ -31,7 +31,7 @@ export function RiskRadar() {
           <circle key={scale} cx={center} cy={center} r={radius * scale} fill="none" stroke="var(--border)" />
         ))}
         {points.map((point) => <line key={point.item.factor} x1={center} y1={center} x2={point.labelX} y2={point.labelY} stroke="var(--border)" />)}
-        <polygon points={polygon} fill="var(--accent)" fillOpacity=".22" stroke="var(--accent)" strokeWidth="2.5" />
+        <polygon points={polygon} fill="var(--accent)" fillOpacity=".16" stroke="var(--accent)" strokeWidth="2" />
         {points.map((point) => <circle key={point.item.factor} cx={point.x} cy={point.y} r="3.5" fill="var(--accent)" />)}
         {points.map((point) => (
           <text key={point.item.factor} x={point.labelX} y={point.labelY} textAnchor="middle" dominantBaseline="middle" fill="var(--text-muted)" fontSize="10">

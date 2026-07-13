@@ -52,8 +52,8 @@ export default function DocsPage() {
         </div>
       </Card>
       <div className="grid gap-4 lg:grid-cols-2">
-        <Card><CardHeader><CardTitle>Example Request</CardTitle></CardHeader><pre className="overflow-auto rounded-lg bg-[#07100d] p-4 text-xs text-primary-soft">{request}</pre></Card>
-        <Card><CardHeader><CardTitle>Example Response</CardTitle></CardHeader><pre className="overflow-auto rounded-lg bg-[#07100d] p-4 text-xs text-primary-soft">{response}</pre></Card>
+        <Card><CardHeader><CardTitle>Example Request</CardTitle></CardHeader><pre className="overflow-auto rounded-lg bg-surface p-4 text-xs text-primary-soft">{request}</pre></Card>
+        <Card><CardHeader><CardTitle>Example Response</CardTitle></CardHeader><pre className="overflow-auto rounded-lg bg-surface p-4 text-xs text-primary-soft">{response}</pre></Card>
       </div>
     </div>
   );

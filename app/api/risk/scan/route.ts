@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
 import { z } from "zod";
 import { holdings, riskyApprovals } from "@/lib/mock/holdings";
 import { buildRiskScan } from "@/lib/risk/scoring";
+import { fail, ok } from "@/lib/api";
 
 const riskScanSchema = z.object({
   walletAddress: z.string().min(6),
@@ -10,14 +10,21 @@ const riskScanSchema = z.object({
 });
 
 export async function POST(request: Request) {
-  const parsed = riskScanSchema.safeParse(await request.json());
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return fail({ request, status: 400, code: "invalid_json", message: "Request body must be valid JSON." });
+  }
+  const parsed = riskScanSchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ error: "invalid_request", issues: parsed.error.flatten() }, { status: 400 });
+    return fail({ request, status: 400, code: "invalid_request", message: "Risk scan request failed validation.", details: parsed.error.flatten() });
   }
   const result = buildRiskScan(holdings, parsed.data.includeApprovals ? riskyApprovals : []);
-  return NextResponse.json({
+  return ok({
     ...result,
     depth: parsed.data.depth,
-    walletAddress: parsed.data.walletAddress
-  });
+    walletAddress: parsed.data.walletAddress,
+    demoAdapter: true
+  }, request);
 }

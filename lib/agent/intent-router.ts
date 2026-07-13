@@ -9,11 +9,17 @@ import { paymentRequiredResponse } from "./responses";
 
 export function routeAgentIntent(input: AgentQueryInput): AgentResponse {
   const requestId = `req_${crypto.randomUUID()}`;
+  const baseMeta = {
+    timestamp: new Date().toISOString(),
+    dataFreshness: new Date(Date.now() - 90_000).toISOString(),
+    simulationOnly: true
+  };
   const scan = buildRiskScan(holdings, riskyApprovals);
   const policy = {
     maxSingleAssetExposurePct: input.policy?.maxSingleAssetExposurePct ?? 30,
     minStablecoinPct: input.policy?.minStablecoinPct ?? 20,
-    maxSlippagePct: input.policy?.maxSlippagePct ?? 0.5
+    maxSlippagePct: input.policy?.maxSlippagePct ?? 0.5,
+    blockedAssets: input.policy?.blockedAssets ?? []
   };
 
   if (input.intent === "risk.deep_analysis" && !input.paymentSessionId) {
@@ -27,6 +33,7 @@ export function routeAgentIntent(input: AgentQueryInput): AgentResponse {
     const blocked = proposedExposure > policy.maxSingleAssetExposurePct;
     return {
       requestId,
+      ...baseMeta,
       intent: input.intent,
       decision: blocked ? "blocked" : "approved",
       riskScoreBefore: 74,
@@ -53,6 +60,7 @@ export function routeAgentIntent(input: AgentQueryInput): AgentResponse {
     const simulation = simulateRebalance({ holdings, strategy: "defensive", policy });
     return {
       requestId,
+      ...baseMeta,
       intent: input.intent,
       decision: "recommended",
       riskScoreBefore: simulation.riskBefore,
@@ -63,7 +71,7 @@ export function routeAgentIntent(input: AgentQueryInput): AgentResponse {
       alerts: alerts.slice(0, 3),
       recommendations: [
         "Reduce TSLA.x allocation below 25%",
-        "Increase USDC/RWA defensive allocation",
+        "Increase USDC and Treasury/RWA allocation",
         "Revoke unlimited USDC approval for 0x9ab...991"
       ],
       policyCheck: simulation.policyResult,
@@ -78,7 +86,7 @@ export function routeAgentIntent(input: AgentQueryInput): AgentResponse {
         healthAfter: 78,
         recommendations: [
           "Reduce TSLA.x allocation below 25%",
-          "Increase USDC/RWA defensive allocation",
+          "Increase USDC and Treasury/RWA allocation",
           "Revoke unlimited USDC approval for 0x9ab...991"
         ]
       },
@@ -88,6 +96,7 @@ export function routeAgentIntent(input: AgentQueryInput): AgentResponse {
 
   return {
     requestId,
+    ...baseMeta,
     intent: input.intent,
     decision: input.intent === "approval.scan" || input.intent === "portfolio.scan" ? "recommended" : "approved",
     riskScoreBefore: scan.riskScore,

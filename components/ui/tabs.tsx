@@ -19,7 +19,7 @@ export function Tabs({
           onClick={() => onChange(tab)}
           className={cn(
             "focus-ring rounded-md px-3 py-1.5 text-xs font-bold transition",
-            active === tab ? "bg-primary text-[#0B1110]" : "text-muted hover:text-main"
+            active === tab ? "bg-primary text-background" : "text-muted hover:text-main"
           )}
         >
           {tab}

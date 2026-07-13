@@ -16,18 +16,18 @@ export function Hero() {
       <div className="wire-field absolute bottom-[-9rem] left-0 h-72 w-[44rem] max-w-full" />
       <div className="relative mx-auto grid max-w-[1440px] items-center gap-10 px-6 py-16 lg:grid-cols-[0.72fr_1.28fr] lg:px-11 lg:py-8">
         <div className="pt-4 lg:pt-10">
-          <Badge tone="good" className="border-primary/30 bg-primary/10 tracking-[0.16em]">AUTONOMOUS PORTFOLIO GUARDIAN</Badge>
+          <Badge tone="good" className="border-primary/30 bg-primary/10 tracking-[0.16em]">AUTONOMOUS RISK INFRASTRUCTURE</Badge>
           <h1 className="mt-8 max-w-[670px] font-serif text-5xl font-bold leading-[0.98] text-main md:text-[4.6rem]">
-            The autonomous guardian for <span className="text-primary">xStocks</span> & RWA portfolios
+            The autonomous guardian for <span className="text-primary">xStocks</span> & RWA portfolios.
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-8 text-muted">
-            Phylax protects, monitors, and optimizes real-world and tokenized equity portfolios so autonomous agents can act with confidence.
+            Phylax monitors portfolio risk, detects unsafe approvals, simulates safer allocations and gives autonomous agents a security check before they move capital.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Button className="px-7">Book demo <ArrowRight className="h-4 w-4" /></Button>
-            <Link href="/dashboard"><Button variant="secondary" className="px-7">Explore product</Button></Link>
+            <Link href="/dashboard?demo=incident"><Button className="px-7">Launch Phylax <ArrowRight className="h-4 w-4" /></Button></Link>
+            <Link href="#product"><Button variant="secondary" className="px-7">See how it works</Button></Link>
           </div>
-          <p className="mt-7 flex items-center gap-2 text-sm font-semibold text-muted"><ShieldCheck className="h-4 w-4 text-primary" /> Built for autonomy. Secured by design.</p>
+          <p className="mt-7 flex items-center gap-2 text-sm font-semibold text-muted"><ShieldCheck className="h-4 w-4 text-primary" /> Built for autonomous agents. Secured by policy-controlled execution.</p>
         </div>
         <div className="relative h-[520px] overflow-hidden sm:h-[610px] lg:h-[690px]">
           <div className="relative h-[690px] w-[790px] origin-top-left scale-[0.72] sm:scale-[0.84] lg:scale-100">
@@ -41,15 +41,15 @@ export function Hero() {
                   Phylax Capital<br /><span className="text-muted">Workspace</span>
                 </button>
                 <Bell className="h-5 w-5 text-muted" />
-                <div className="grid h-9 w-9 place-items-center rounded-full bg-primary-soft text-xs font-black text-[#0B1110]">ML</div>
+                <div className="grid h-9 w-9 place-items-center rounded-full bg-primary-soft text-xs font-black text-background">ML</div>
               </div>
             </div>
             <div className="mt-5 grid grid-cols-4 gap-3">
               {[
                 ["Total Portfolio Value", formatUsd(portfolioOverview.totalValueUsd), "+4.28% (24h)", "good"],
                 ["24H PnL", "+$10,072.45", "+4.28%", "good"],
-                ["Risk Score", "18", "Low Risk", "good"],
-                ["Health Status", "98%", "Healthy", "good"]
+                ["Risk Score", "74", "High", "bad"],
+                ["Health Status", "61", "Watch", "warn"]
               ].map(([label, value, detail]) => (
                 <div key={label} className="rounded-xl border border-border bg-surface p-4">
                   <p className="text-[0.68rem] font-bold text-muted">{label}</p>
@@ -73,9 +73,9 @@ export function Hero() {
                 <h3 className="mb-2 text-sm font-black">Guardian Insights</h3>
                 <RiskRadar />
                 <div className="mt-2 space-y-2 text-xs">
-                  <div className="flex items-center justify-between"><span>AI System Score</span><Badge tone="good">98%</Badge></div>
-                  <div className="flex items-center justify-between"><span>Monitoring</span><Badge tone="good">Healthy</Badge></div>
-                  <div className="flex items-center justify-between"><span>Retention Required</span><Badge tone="warn">Warning</Badge></div>
+                  <div className="flex items-center justify-between"><span>Risk Score</span><Badge tone="bad">74 High</Badge></div>
+                  <div className="flex items-center justify-between"><span>Health</span><Badge tone="warn">61 Watch</Badge></div>
+                  <div className="flex items-center justify-between"><span>Alerts</span><Badge tone="bad">2 risks require attention</Badge></div>
                 </div>
               </div>
             </div>
@@ -84,7 +84,7 @@ export function Hero() {
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <div className="grid h-11 w-11 place-items-center rounded-full bg-surface-soft text-xl">●</div>
-                <div><h3 className="font-display font-black">AAPL <span className="text-xs text-muted">xStock</span></h3><p className="text-xs text-muted">Apple xStock</p></div>
+              <div><h3 className="font-display font-black">TSLA.x <span className="text-xs text-muted">xStock</span></h3><p className="text-xs text-muted">Exposure Spike</p></div>
               </div>
               <Badge tone="good">Monitored</Badge>
             </div>
@@ -92,8 +92,8 @@ export function Hero() {
             <p className="mt-1 text-2xl font-black font-tabular">{formatUsd(portfolioOverview.totalValueUsd)}</p>
             <div className="mt-4 grid grid-cols-3 divide-x divide-border text-xs">
               <div><b>1.2M</b><span className="block text-muted">24H Vol</span></div>
-              <div className="pl-3"><b>98%</b><span className="block text-primary">Healthy</span></div>
-              <div className="pl-3"><b>14.6%</b><span className="block text-muted">Portfolio</span></div>
+              <div className="pl-3"><b>37.8%</b><span className="block text-accent">Over limit</span></div>
+              <div className="pl-3"><b>25%</b><span className="block text-muted">Policy</span></div>
             </div>
           </Card>
           <Card className="absolute bottom-10 left-[19rem] z-20 w-[390px] p-4">
@@ -108,9 +108,9 @@ export function Hero() {
                 ))}
               </div>
               <div className="space-y-2">
-                <p>Risk Score <b className="text-primary">18 → 14</b></p>
-                <p>Expected Return <b className="text-primary">+0.72%</b></p>
-                <p>Portfolio Health <b className="text-primary">98% → 99%</b></p>
+                <p>Risk Score <b className="text-primary">74 → 49</b></p>
+                <p>Est. Slippage <b className="text-primary">0.21%</b></p>
+                <p>Portfolio Health <b className="text-primary">61 → 78</b></p>
               </div>
             </div>
             <Button className="mt-4 h-9 w-full text-xs"><CheckCircle2 className="h-3 w-3" /> Run Simulation</Button>
@@ -118,10 +118,10 @@ export function Hero() {
           <Card className="absolute bottom-8 right-4 z-20 w-64 p-5">
             <div className="flex items-center gap-3">
               <AlertTriangle className="h-8 w-8 text-accent" />
-              <div className="font-display font-black">Exposure Spike</div>
-              <Badge tone="bad">High</Badge>
+              <div className="font-display font-black">Risky Approval</div>
+              <Badge tone="bad">Critical</Badge>
             </div>
-            <p className="mt-6 text-sm text-muted">Instant clarity.<br />Action when it matters.</p>
+            <p className="mt-6 text-sm text-muted">Unlimited USDC allowance<br />0x9ab...991</p>
           </Card>
           <div className="absolute bottom-[-2rem] right-[-1rem] opacity-20 dark:opacity-35">
             <PhylaxMark className="h-48 w-40" />

@@ -9,10 +9,10 @@ export function Button({
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant }) {
   const variants: Record<Variant, string> = {
-    primary: "border border-primary/30 bg-primary text-[#0B1110] shadow-glow hover:translate-y-[-1px] hover:opacity-95",
+    primary: "border border-primary/40 bg-primary text-background shadow-glow hover:translate-y-[-1px] hover:opacity-95",
     secondary: "border border-border bg-surface text-main hover:bg-surface-soft",
     ghost: "text-muted hover:bg-surface-soft hover:text-main",
-    danger: "border border-accent/30 bg-accent text-white hover:translate-y-[-1px] hover:opacity-95"
+    danger: "border border-accent/40 bg-accent text-background hover:translate-y-[-1px] hover:opacity-95"
   };
   return (
     <button

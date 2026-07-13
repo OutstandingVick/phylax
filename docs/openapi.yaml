@@ -1,0 +1,81 @@
+openapi: 3.0.3
+info:
+  title: Phylax API
+  version: 0.1.0
+  description: Demo-first risk, payment, rebalance, and agent service API.
+paths:
+  /api/health:
+    get:
+      summary: Health check
+      responses:
+        "200": { description: Service status }
+  /api/portfolio/overview:
+    get:
+      summary: Demo portfolio overview
+      responses:
+        "200": { description: Portfolio metrics }
+  /api/portfolio/holdings:
+    get:
+      summary: Demo holdings
+      responses:
+        "200": { description: Holdings list }
+  /api/risk/scan:
+    post:
+      summary: Run risk scan
+      responses:
+        "200": { description: Risk score and alerts }
+        "400": { description: Invalid request }
+  /api/approvals/scan:
+    post:
+      summary: Scan risky approvals
+      responses:
+        "200": { description: Risky approvals }
+  /api/rebalance/simulate:
+    post:
+      summary: Simulate rebalance
+      responses:
+        "200": { description: Simulation output }
+        "400": { description: Invalid request }
+  /api/rebalance/execute:
+    post:
+      summary: Simulation-only guarded execution
+      responses:
+        "200": { description: Simulation-only response }
+  /api/agent/query:
+    post:
+      summary: Agent intent endpoint
+      responses:
+        "200": { description: Agent decision }
+        "400": { description: Invalid request }
+        "402": { description: Payment required }
+  /api/payments/session:
+    post:
+      summary: Create demo x402/Upto payment session
+      responses:
+        "200": { description: Payment session }
+  /api/payments/approve:
+    post:
+      summary: Approve demo spending cap
+      responses:
+        "200": { description: Settled demo payment }
+  /api/reports/{id}:
+    get:
+      summary: Fetch report
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: Report }
+        "404": { description: Missing report }
+  /api/alerts:
+    get:
+      summary: Fetch alerts
+      responses:
+        "200": { description: Alert list }
+  /api/webhooks:
+    post:
+      summary: Register demo webhook
+      responses:
+        "200": { description: Demo webhook registered }

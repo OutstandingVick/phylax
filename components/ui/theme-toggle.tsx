@@ -8,14 +8,16 @@ export function ThemeToggle() {
   const [isDark, setIsDark] = useState(true);
   useEffect(() => {
     const stored = window.localStorage.getItem("phylax-theme");
-    const nextDark = stored ? stored === "dark" : true;
+    const nextDark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: light)").matches ? false : true;
     setIsDark(nextDark);
     document.documentElement.classList.toggle("dark", nextDark);
+    document.documentElement.classList.toggle("light", !nextDark);
   }, []);
   function toggleTheme() {
     const nextDark = !isDark;
     setIsDark(nextDark);
     document.documentElement.classList.toggle("dark", nextDark);
+    document.documentElement.classList.toggle("light", !nextDark);
     window.localStorage.setItem("phylax-theme", nextDark ? "dark" : "light");
   }
   return (

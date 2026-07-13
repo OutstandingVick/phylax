@@ -78,6 +78,9 @@ export interface PolicyConstraints {
   maxSingleAssetExposurePct: number;
   minStablecoinPct: number;
   maxSlippagePct: number;
+  blockedAssets?: string[];
+  blockStaleData?: boolean;
+  blockLowConfidence?: boolean;
 }
 
 export interface RebalanceAction {
@@ -103,5 +106,7 @@ export interface RebalanceSimulation {
   actions: RebalanceAction[];
   executionAllowed: boolean;
   policyResult: "passed" | "failed" | "requires_approval";
+  confidence?: "low" | "medium" | "high";
+  blockers?: string[];
   explanation: string;
 }

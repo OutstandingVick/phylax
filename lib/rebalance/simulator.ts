@@ -5,7 +5,10 @@ import { alerts } from "@/lib/mock/alerts";
 const defaultPolicy: PolicyConstraints = {
   maxSingleAssetExposurePct: 25,
   minStablecoinPct: 20,
-  maxSlippagePct: 0.5
+  maxSlippagePct: 0.5,
+  blockedAssets: [],
+  blockStaleData: true,
+  blockLowConfidence: true
 };
 
 export function simulateRebalance({
@@ -46,10 +49,17 @@ export function simulateRebalance({
   const estimatedSlippagePct = strategy === "momentum" ? 0.28 : 0.21;
   const riskAfter = strategy === "defensive" ? 49 : strategy === "balanced" ? 52 : 56;
   const healthAfter = Math.max(78, calculateHealthScore(riskAfter, alerts, 76));
-  const executionAllowed = estimatedSlippagePct <= policy.maxSlippagePct && afterAllocation["TSLA.x"] <= policy.maxSingleAssetExposurePct;
+  const blockedAssets = new Set(policy.blockedAssets ?? []);
+  const blockers = [
+    estimatedSlippagePct > policy.maxSlippagePct ? "Estimated slippage exceeds policy maximum." : null,
+    afterAllocation["TSLA.x"] > policy.maxSingleAssetExposurePct ? "TSLA.x remains above max single-asset exposure." : null,
+    holdings.some((holding) => blockedAssets.has(holding.symbol)) ? "Simulation includes a blocked asset." : null,
+    policy.blockLowConfidence && holdings.some((holding) => holding.confidence === "low") ? "Low-confidence data blocks execution." : null
+  ].filter((item): item is string => Boolean(item));
+  const executionAllowed = blockers.length === 0;
 
   return {
-    simulationId: `sim_${Math.random().toString(16).slice(2, 8)}`,
+    simulationId: `sim_${strategy.replace(/[^a-z]/g, "_")}_incident_001`,
     strategy,
     beforeAllocation: calculatePortfolioAllocation(holdings),
     afterAllocation,
@@ -92,6 +102,8 @@ export function simulateRebalance({
     ],
     executionAllowed,
     policyResult: executionAllowed ? "passed" : "failed",
+    confidence: "high",
+    blockers,
     explanation: "Defensive guardrails lower modeled risk while preserving enough liquidity for future agent actions."
   };
 }

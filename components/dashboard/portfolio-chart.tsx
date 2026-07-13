@@ -20,7 +20,7 @@ export function PortfolioChart() {
       <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full" role="img" aria-label="Portfolio performance chart">
         <defs>
           <linearGradient id="portfolioFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="var(--primary)" stopOpacity=".42" />
+            <stop offset="5%" stopColor="var(--primary)" stopOpacity=".26" />
             <stop offset="95%" stopColor="var(--primary)" stopOpacity=".03" />
           </linearGradient>
         </defs>

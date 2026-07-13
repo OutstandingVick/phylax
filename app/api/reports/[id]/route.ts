@@ -1,8 +1,9 @@
-import { NextResponse } from "next/server";
 import { reports } from "@/lib/mock/reports";
+import { fail, ok } from "@/lib/api";
 
-export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const report = reports.find((item) => item.id === id) ?? reports[0];
-  return NextResponse.json(report);
+  const report = reports.find((item) => item.id === id);
+  if (!report) return fail({ request, status: 404, code: "resource_not_found", message: `Report ${id} was not found.` });
+  return ok(report, request);
 }

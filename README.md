@@ -1,112 +1,70 @@
 # Phylax
 
-Phylax is an A2MCP-first Agent Service Provider for OKX.AI: an autonomous guardian for xStocks and real-world asset portfolios.
+Phylax is the autonomous guardian for xStocks and RWA portfolios. Before autonomous agents move tokenized capital, they should ask Phylax whether the action is safe.
 
-It monitors holdings, detects portfolio and security risks, scans dangerous approvals, produces risk and health scores, suggests safer rebalance actions, gates deep analysis behind an x402/Upto-style payment flow, and exposes agent-readable APIs before autonomous systems move tokenized capital.
+## Product Thesis
 
-> Current MVP uses safe mocks and typed adapter stubs. No real private keys, payments, or trades are used.
+Phylax sits between agent intent, portfolio data, risk analysis, payment authorization, policy checks, simulation, and execution. It provides portfolio monitoring, concentration and approval-risk detection, payment-gated deep analysis, rebalance simulation, and machine-readable agent decisions.
 
-## What Phylax Does
-
-- Portfolio monitoring for xStocks, RWAs, stablecoins, and cash-like assets.
-- Risk scoring across market, liquidity, concentration, counterparty, approvals, volatility, execution, and data confidence.
-- Approval scanning for dangerous allowances like unlimited USDC approvals.
-- Rebalance simulation with defensive, balanced, momentum, mean-reversion, and custom strategy modes.
-- Agent preflight checks through `/api/agent/query`.
-- Simulated x402/Upto payment sessions for deep analysis.
-- Production-oriented adapter boundaries for OKX OnchainOS, Agentic Wallet, market data, and DEX execution.
-
-## Why It Matters
-
-Before autonomous agents move tokenized capital, they should ask a trusted risk layer whether the action is safe. Phylax makes that check machine-readable, payment-aware, policy-controlled, and easy to embed in agent workflows.
+Phylax provides portfolio risk analysis, not financial advice. Execution is simulated in the MVP unless a verified wallet adapter is configured.
 
 ## Demo Flow
 
-1. Open `/` for the premium marketing website.
-2. Launch `/dashboard` to see the incident scenario.
-3. Show TSLA.x at 37.8% allocation and the risky unlimited USDC approval.
-4. Click `Run Deep Analysis` in the billing card and approve the simulated Upto cap.
-5. Open `/dashboard/rebalance` to show risk improving from 74 to 49.
-6. Open `/dashboard/docs` and show `/api/agent/query`.
-7. Call the agent endpoint to prove another agent can receive a blocked/recommended decision.
+Run `/dashboard?demo=incident` and click **Run Incident Demo**. The flow shows:
 
-## Architecture
-
-```mermaid
-flowchart LR
-  User["Dashboard / Marketing UI"] --> API["Next.js API Routes"]
-  Agent["Autonomous Agent"] --> AgentQuery["/api/agent/query"]
-  API --> Risk["Risk Scoring Engine"]
-  API --> Rebalance["Rebalance Simulator"]
-  API --> Payments["x402/Upto Demo Gate"]
-  API --> MockData["Local Mock Data"]
-  Risk --> Adapters["OKX / Market / Wallet / DEX Adapters"]
-  Rebalance --> Adapters
-  AgentQuery --> Risk
-  AgentQuery --> Rebalance
-```
+- Portfolio value `$245,680.35`
+- TSLA.x at `37.8%` versus a `25%` policy limit
+- Risk `74 High`, health `61 Watch`
+- Risky approval: unlimited USDC allowance to `0x9ab...991`
+- 402-style Upto payment cap: max `3.00 USDC`
+- Exact mock charge `2.18 USDC`
+- Rebalance result: risk `74 -> 49`, health `61 -> 78`, fee `$18.42`, slippage `0.21%`
+- Final agent-readable JSON report
 
 ## Tech Stack
 
-- Next.js 15 App Router
-- React 19
-- TypeScript strict mode
-- Tailwind CSS
-- Native light/dark mode toggle using the Phylax CSS token system
-- lucide-react icons
-- SVG data visualizations
-- Zod-style local validation shim for demo-safe route validation
-- Local mock data and typed integration adapters
+Next.js App Router, React, TypeScript strict mode, Tailwind CSS, lucide-react, lightweight local Zod-compatible validation, deterministic domain modules, and optional Prisma schema scaffolding for SQLite/Postgres-compatible persistence.
 
-## Setup
+## Local Setup
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open `http://localhost:3000`.
 
-Useful commands:
+Copy `.env.example` to `.env.local` if needed. Do not store private keys, seed phrases, or populated provider secrets in the repo.
+
+## Scripts
 
 ```bash
-npm run typecheck
+npm run dev
 npm run build
 npm run lint
+npm run typecheck
 npm run test
 ```
 
-## Environment Variables
+## API Routes
 
-Copy `.env.example` to `.env.local` for local development.
-
-```bash
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-NEXT_PUBLIC_DEMO_MODE=true
-OKX_ONCHAINOS_API_KEY=
-OKX_MARKET_API_KEY=
-OKX_AGENTIC_WALLET_CLIENT_ID=
-X402_PROVIDER_URL=
-X402_MERCHANT_ADDRESS=
-UPTO_PAYMENT_CONTRACT=
-DATABASE_URL=
-```
-
-## API Endpoints
-
+- `GET /api/health`
 - `GET /api/portfolio/overview`
 - `GET /api/portfolio/holdings`
 - `POST /api/risk/scan`
 - `POST /api/approvals/scan`
 - `POST /api/rebalance/simulate`
 - `POST /api/rebalance/execute`
-- `POST /api/payments/session`
 - `POST /api/agent/query`
+- `POST /api/payments/session`
+- `POST /api/payments/approve`
 - `GET /api/reports/:id`
 - `GET /api/alerts`
 - `POST /api/webhooks`
 
-## Agent Service Interface
+OpenAPI starter: `docs/openapi.yaml`.
+
+## Agent Service
 
 `POST /api/agent/query` supports:
 
@@ -117,100 +75,67 @@ DATABASE_URL=
 - `execution.preflight`
 - `report.generate`
 
-Example:
+`risk.deep_analysis` returns HTTP 402 until a demo payment session is approved.
 
-```json
-{
-  "requestingAgentId": "agent_portfolio_manager_01",
-  "intent": "execution.preflight",
-  "walletAddress": "0x742d...44e",
-  "proposedAction": {
-    "type": "swap",
-    "from": "USDC",
-    "to": "TSLAx",
-    "amountUsd": 10000
-  },
-  "policy": {
-    "maxSingleAssetExposurePct": 30,
-    "maxSlippagePct": 0.5
-  }
-}
-```
+## Risk Model
 
-## x402/Upto Payment Demo
+Risk is scored 0-100 where higher is riskier. Weights:
 
-Deep analysis is payment-gated in the product and API. The MVP simulates a Upto cap:
+- Market 15%
+- Liquidity 15%
+- Concentration 20%
+- Counterparty/protocol 15%
+- Approval 15%
+- Volatility 10%
+- Execution 5%
+- Data confidence 5%
 
-- Purpose: `risk.deep_analysis`
-- Max spend: `3.00 USDC`
-- Estimated final charge: `1.20 - 2.80 USDC`
-- Demo settled charge: `1.84 USDC`
+Risk bands: `0-30 low`, `31-60 medium`, `61-80 high`, `81-100 critical`.
 
-No real onchain payment occurs.
+## Rebalance Model
 
-## OKX / OnchainOS Integration Plan
+The defensive strategy reduces TSLA.x concentration, increases USDC and Treasury/RWA allocation, estimates fees/slippage, and blocks execution when policy, slippage, blocked assets, stale data, or low confidence rules fail. MVP execution is simulation-only.
 
-Real integrations can replace the stubs in `lib/integrations`:
+## Payment Flow
 
-- `okx-onchainos-adapter.ts`
-- `agentic-wallet-adapter.ts`
-- `market-api-adapter.ts`
-- `dex-adapter.ts`
+The x402/Upto payment layer is a realistic demo abstraction. It creates a payment session, requires approval, settles a mock charge, and records exact demo cost. It does not perform onchain settlement.
 
-The MVP already separates portfolio data, token risk, market data, transaction simulation, policy checks, TEE signing placeholders, quotes, swaps, and execution boundaries.
+## Integration Adapters
 
-## Security Model
+Typed demo adapters exist for OKX Onchain OS, Agentic Wallet, Market API, DEX, x402, and Upto. No official provider contracts are invented. Live integration requires replacing demo adapters after verifying official SDK/API contracts.
 
-- Non-custodial by design.
-- Never store or request private keys.
-- Execution is simulated unless a real Agentic Wallet integration is configured.
-- Policy checks gate any future execution.
-- Allowlisted execution and audit logs are first-class product concepts.
-- Phylax provides risk analysis, not financial advice.
+## Persistence
 
-## Risk Scoring Model
+`prisma/schema.prisma` models users, wallets, portfolios, holdings, alerts, payments, policies, reports, agent requests, and audit events. `prisma/seed.ts` prints the demo dataset and is optional until Prisma client is installed.
 
-Risk score is 0-100, higher is riskier:
+## Documentation
 
-- Market risk: 15%
-- Liquidity risk: 15%
-- Concentration risk: 20%
-- Counterparty/protocol risk: 15%
-- Approval risk: 15%
-- Volatility risk: 10%
-- Execution risk: 5%
-- Data confidence: 5%
+- `docs/ARCHITECTURE.md`
+- `docs/AGENT_INTEGRATION.md`
+- `docs/SECURITY.md`
+- `docs/BRAND_GUIDELINES.md`
+- `docs/DEMO_SCRIPT.md`
 
-Bands:
+## Marketplace Positioning
 
-- 0-30: Low
-- 31-60: Medium
-- 61-80: High
-- 81-100: Critical
+Category: Agent Service Provider. Primary use case: policy-aware risk and security preflight for autonomous xStocks/RWA portfolios.
 
-## Rebalance Logic
+## Known Limitations
 
-The simulator models before/after allocation, risk, health, fees, slippage, execution allowance, policy result, and recommended actions. The demo incident recommends reducing TSLA.x below 25%, increasing USDC and US Treasury 3M allocation, and revoking the risky USDC approval.
-
-## Screenshots
-
-Add screenshots for submission after running the app:
-
-- Landing page
-- Overview dashboard
-- Rebalance simulator
-- Payment-gated deep analysis
-- Agent/API docs
-
-## Hackathon Submission Notes
-
-Phylax is built as a production-oriented MVP for a serious fintech/security startup. It is demo-ready in 90 seconds while keeping the architecture ready for real OKX.AI, OnchainOS, Agentic Wallet, and x402/Upto integration.
+- No real wallet signing.
+- No live OKX/X Layer calls.
+- No real x402/Upto settlement.
+- No production auth or database persistence wired at runtime.
+- Risk model is transparent and deterministic, not a guarantee of safety or returns.
 
 ## Roadmap
 
-- Replace local mocks with OKX OnchainOS portfolio and market data.
-- Add durable database storage for sessions, policies, alerts, and reports.
-- Add real x402/Upto payment settlement.
-- Add Agentic Wallet policy sessions and TEE-protected signing.
-- Add organization workspaces, audit log export, and SOC 2 evidence workflows.
-- Add SDK packages for TypeScript and Python agents.
+1. Verify official OKX.AI, A2MCP, X Layer, Agentic Wallet, Market API, DEX, x402, and Upto contracts.
+2. Replace demo adapters behind existing interfaces.
+3. Add production auth, API keys, rate limiting, durable audit logs, and database persistence.
+4. Add live wallet simulation and explicit transaction consent.
+5. Prepare marketplace listing with screenshots, 90-second video, pricing, support links, and security disclosures.
+
+## Screenshots and Demo Video
+
+Place final screenshots and the demo video link here before marketplace submission.

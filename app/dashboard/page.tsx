@@ -7,6 +7,7 @@ import { MetricCard } from "@/components/dashboard/metric-card";
 import { PortfolioChart } from "@/components/dashboard/portfolio-chart";
 import { RebalanceCard } from "@/components/dashboard/rebalance-card";
 import { RiskRadar } from "@/components/dashboard/risk-radar";
+import { DemoController } from "@/components/dashboard/demo-controller";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { alerts } from "@/lib/mock/alerts";
 import { activity, portfolioOverview } from "@/lib/mock/portfolio";
@@ -23,6 +24,7 @@ export default function DashboardPage() {
         </div>
         <p className="text-sm text-muted">Last scanned {new Date(portfolioOverview.lastScannedAt).toLocaleTimeString()}</p>
       </div>
+      <DemoController />
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <MetricCard title="Total Portfolio Value" value={formatUsd(portfolioOverview.totalValueUsd)} detail="X Layer wallet monitored" icon={DollarSign} />
         <MetricCard title="24H PnL" value={formatUsd(portfolioOverview.pnl24hUsd)} detail={formatPct(portfolioOverview.pnl24hPct)} icon={HeartPulse} tone="good" />

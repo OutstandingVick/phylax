@@ -16,8 +16,9 @@ export function Footer() {
       <div className="mx-auto grid max-w-[1440px] gap-10 px-6 lg:grid-cols-[1.2fr_2fr_1fr] lg:px-11">
         <div>
           <PhylaxLogo />
-          <p className="mt-5 max-w-xs text-sm leading-6 text-muted">Protecting value. Empowering investors. Securing the future.</p>
-          <p className="mt-10 text-xs text-muted">© 2025 Phylax. All rights reserved.</p>
+          <p className="mt-5 max-w-xs text-sm leading-6 text-muted">Protecting value. Empowering agents. Securing the future.</p>
+          <p className="mt-6 text-xs leading-5 text-muted">Phylax provides portfolio risk analysis, not financial advice. Execution is simulated in the MVP unless a verified wallet adapter is configured.</p>
+          <p className="mt-10 text-xs text-muted">© 2026 Phylax. All rights reserved.</p>
         </div>
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {Object.entries(groups).map(([group, links]) => (

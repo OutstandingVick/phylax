@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { z } from "zod";
+import { fail, ok } from "@/lib/api";
 
 const schema = z.object({
   url: z.string().url(),
@@ -7,14 +7,20 @@ const schema = z.object({
 });
 
 export async function POST(request: Request) {
-  const parsed = schema.safeParse(await request.json());
-  if (!parsed.success) {
-    return NextResponse.json({ error: "invalid_request", issues: parsed.error.flatten() }, { status: 400 });
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return fail({ request, status: 400, code: "invalid_json", message: "Request body must be valid JSON." });
   }
-  return NextResponse.json({
+  const parsed = schema.safeParse(body);
+  if (!parsed.success) {
+    return fail({ request, status: 400, code: "invalid_request", message: "Webhook registration failed validation.", details: parsed.error.flatten() });
+  }
+  return ok({
     webhookId: `wh_${crypto.randomUUID().slice(0, 8)}`,
     status: "registered",
     simulationOnly: true,
     ...parsed.data
-  });
+  }, request);
 }

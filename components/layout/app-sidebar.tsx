@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AlertTriangle, BarChart3, BookOpen, CreditCard, Gauge, RotateCw, Settings, Wallet } from "lucide-react";
+import { AlertTriangle, BarChart3, BookOpen, CreditCard, FileText, Gauge, RotateCw, Settings, Wallet } from "lucide-react";
 import { PhylaxLogo } from "@/components/brand/phylax-logo";
 import { PhylaxMark } from "@/components/brand/phylax-mark";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +11,7 @@ const items = [
   { href: "/dashboard/rebalance", label: "Rebalancing", icon: RotateCw },
   { href: "/dashboard/billing", label: "Billing", icon: CreditCard },
   { href: "/dashboard/docs", label: "Agent Docs", icon: BookOpen },
+  { href: "/dashboard/reports", label: "Reports", icon: FileText },
   { href: "/dashboard/settings", label: "Settings", icon: Settings }
 ];
 

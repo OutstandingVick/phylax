@@ -1,0 +1,13 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0B1110"/>
+  <path d="M0 520 C220 430 380 620 610 500 S980 360 1200 455 V630 H0Z" fill="#121A17"/>
+  <g transform="translate(112 126) scale(2.4)">
+    <path d="M36 2.8 52.2 12v14.1l13.2 6.8v25.6c0 12.2-8.9 21.5-29.4 25.7C15.5 80 6.6 70.7 6.6 58.5V32.9l13.2-6.8V12L36 2.8Z" fill="#FAEDCA"/>
+    <path d="M30.6 42.7 43.8 50v10.4l-13.2 7.3v-25Z" fill="#0B1110"/>
+    <path d="M30.6 29.6 36 26.8l5.4 2.8v5.9L36 32.7l-5.4 2.8v-5.9Z" fill="#0B1110"/>
+    <path d="M34 9.8h4v4h-4z" fill="#7EBC89"/>
+  </g>
+  <text x="335" y="225" fill="#FAEDCA" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="800" letter-spacing="14">PHYLAX</text>
+  <text x="335" y="310" fill="#C1DBB3" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="600">Autonomous guardian for xStocks &amp; RWA portfolios</text>
+  <text x="335" y="372" fill="#7EBC89" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">Risk checks before agents move capital</text>
+</svg>
