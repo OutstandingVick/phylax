@@ -1,14 +1,15 @@
+import Link from "next/link";
 import { Github, Linkedin, Send, Twitter } from "lucide-react";
 import { PhylaxLogo } from "@/components/brand/phylax-logo";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const groups = {
-  Product: ["Guardian", "Monitoring", "Rebalancing", "Payments"],
-  Company: ["About", "Careers", "Security", "Contact"],
-  Resources: ["Docs", "API", "Webhooks", "Status"],
-  Legal: ["Privacy", "Terms", "Disclosures", "DPA"]
-};
+  Product: [["Guardian", "/dashboard"], ["Monitoring", "/dashboard/portfolio"], ["Rebalancing", "/dashboard/rebalance"], ["Payments", "/docs#business-model"]],
+  Company: [["About", "/docs#overview"], ["Security", "/docs#verification"], ["Contact", "https://github.com/OutstandingVick/phylax"]],
+  Resources: [["Docs", "/docs"], ["API", "/docs#api"], ["SDK", "/docs#sdk"], ["Evidence", "/dashboard/evidence"]],
+  Legal: [["Limitations", "/docs#limitations"], ["Disclosures", "/docs#limitations"]]
+} as const;
 
 export function Footer() {
   return (
@@ -24,7 +25,13 @@ export function Footer() {
           {Object.entries(groups).map(([group, links]) => (
             <div key={group}>
               <h3 className="text-sm font-black">{group}</h3>
-              <div className="mt-4 space-y-3 text-sm text-muted">{links.map((link) => <p key={link}>{link}</p>)}</div>
+              <div className="mt-4 grid gap-3 text-sm text-muted">
+                {links.map(([label, href]) => href.startsWith("http") ? (
+                  <a key={label} href={href} target="_blank" rel="noreferrer" className="hover:text-main">{label}</a>
+                ) : (
+                  <Link key={label} href={href} className="hover:text-main">{label}</Link>
+                ))}
+              </div>
             </div>
           ))}
         </div>

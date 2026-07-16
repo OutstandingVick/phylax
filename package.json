@@ -9,7 +9,7 @@
     "build:github": "GITHUB_PAGES=true next build",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
-    "test": "tsx tests/risk-rebalance-agent.test.ts"
+    "test": "tsx tests/run.ts"
   },
   "dependencies": {
     "framer-motion": "^12.42.2",

@@ -16,7 +16,7 @@ const groups = [
       ["Approval Guard", "/dashboard/alerts"],
       ["Risk Analysis", "/dashboard"],
       ["Rebalance Simulation", "/dashboard/rebalance"],
-      ["Agent Preflight", "/dashboard/docs"]
+      ["Agent Preflight", "/docs#how-it-works"]
     ]
   },
   {
@@ -31,26 +31,27 @@ const groups = [
   {
     label: "Developers",
     items: [
-      ["API Reference", "/dashboard/docs"],
-      ["Agent Integration", "/dashboard/docs"],
-      ["x402/Upto", "/dashboard/billing"],
-      ["Webhooks", "/dashboard/settings"]
+      ["API Reference", "/docs#api"],
+      ["Agent Integration", "/docs#sdk"],
+      ["x402/Upto", "/docs#business-model"],
+      ["Webhooks", "/docs#api"]
     ]
   },
   {
     label: "Security",
     items: [
-      ["Policy Controls", "#engine"],
-      ["Approval Analysis", "#protection-lifecycle"],
-      ["Simulation First", "#product-suite"],
+      ["Policy Controls", "/docs#verification"],
+      ["Approval Analysis", "/docs#how-it-works"],
+      ["Simulation First", "/docs#limitations"],
       ["Audit Reports", "/dashboard/reports"]
     ]
   },
   {
     label: "Resources",
     items: [
-      ["Risk Model", "#latest"],
-      ["Architecture", "/dashboard/docs"],
+      ["Documentation", "/docs"],
+      ["Risk Model", "/docs#problem"],
+      ["Architecture", "/docs#how-it-works"],
       ["Demo Scenario", "/dashboard?demo=incident"],
       ["GitHub", "https://github.com/OutstandingVick/phylax"]
     ]

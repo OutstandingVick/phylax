@@ -1,81 +1,303 @@
 openapi: 3.0.3
 info:
-  title: Phylax API
-  version: 0.1.0
-  description: Demo-first risk, payment, rebalance, and agent service API.
+  title: Phylax Agent Risk API
+  version: 0.2.0
+  description: |
+    Policy-aware portfolio risk preflights for autonomous xStocks and RWA workflows.
+    Execution remains simulation-only in the MVP. Signed attestations prove what
+    Phylax evaluated; evidence provenance states whether the inputs were independently verified.
+  contact:
+    name: Phylax
+    url: https://outstandingvick.github.io/phylax/
+servers:
+  - url: https://phylax-ivory.vercel.app
+    description: Public production demo API
+tags:
+  - name: Agent
+  - name: Attestations
+  - name: Evidence
+  - name: Portfolio
+  - name: Payments
 paths:
-  /api/health:
-    get:
-      summary: Health check
-      responses:
-        "200": { description: Service status }
-  /api/portfolio/overview:
-    get:
-      summary: Demo portfolio overview
-      responses:
-        "200": { description: Portfolio metrics }
-  /api/portfolio/holdings:
-    get:
-      summary: Demo holdings
-      responses:
-        "200": { description: Holdings list }
-  /api/risk/scan:
-    post:
-      summary: Run risk scan
-      responses:
-        "200": { description: Risk score and alerts }
-        "400": { description: Invalid request }
-  /api/approvals/scan:
-    post:
-      summary: Scan risky approvals
-      responses:
-        "200": { description: Risky approvals }
-  /api/rebalance/simulate:
-    post:
-      summary: Simulate rebalance
-      responses:
-        "200": { description: Simulation output }
-        "400": { description: Invalid request }
-  /api/rebalance/execute:
-    post:
-      summary: Simulation-only guarded execution
-      responses:
-        "200": { description: Simulation-only response }
   /api/agent/query:
     post:
-      summary: Agent intent endpoint
+      tags: [Agent]
+      summary: Evaluate an agent request
+      description: execution.preflight responses include an action-bound, expiring Ed25519 attestation when signing is enabled.
+      operationId: queryAgent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentQuery"
+            examples:
+              blockedConcentration:
+                value:
+                  requestingAgentId: portfolio_agent_01
+                  intent: execution.preflight
+                  walletAddress: "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+                  proposedAction:
+                    type: swap
+                    from: USDC
+                    to: TSLA.x
+                    amountUsd: 10000
+                    slippagePct: 0.21
+                    chainId: 196
+                  policy:
+                    maxSingleAssetExposurePct: 30
+                    maxSlippagePct: 0.5
+                    maxActionUsd: 15000
       responses:
-        "200": { description: Agent decision }
-        "400": { description: Invalid request }
-        "402": { description: Payment required }
+        "200":
+          description: Risk decision returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentResponse"
+        "400":
+          $ref: "#/components/responses/InvalidRequest"
+        "402":
+          description: A payment is required for the requested deep analysis
+  /api/attestations/public-key:
+    get:
+      tags: [Attestations]
+      summary: Get the public attestation verification key
+      operationId: getAttestationPublicKey
+      responses:
+        "200":
+          description: Ed25519 public key in PEM and JWK formats
+        "503":
+          description: Signing is not configured on this deployment
+  /api/attestations/verify:
+    post:
+      tags: [Attestations]
+      summary: Verify a signed risk attestation
+      operationId: verifyRiskAttestation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [attestation]
+              properties:
+                attestation:
+                  $ref: "#/components/schemas/SignedAttestation"
+                expectedAction:
+                  type: object
+                  additionalProperties: true
+                expectedPolicy:
+                  type: object
+                  additionalProperties: true
+                expectedEvidence:
+                  type: object
+                  additionalProperties: true
+      responses:
+        "200":
+          description: Signature, expiry, key ID, and optional expected-input hashes are valid
+        "422":
+          description: The attestation is expired, altered, signed by another key, or does not match expected inputs
+        "503":
+          description: Verification key is unavailable
+  /api/evidence:
+    get:
+      tags: [Evidence]
+      summary: Get the machine-readable Phylax proof manifest
+      operationId: getEvidenceManifest
+      responses:
+        "200":
+          description: Implemented proof flow, public endpoints, key status, and honest limitations
+  /api/health:
+    get:
+      tags: [Evidence]
+      summary: Health check
+      responses:
+        "200":
+          description: Service status
+  /api/portfolio/overview:
+    get:
+      tags: [Portfolio]
+      summary: Get the demo portfolio overview
+      responses:
+        "200":
+          description: Portfolio metrics
+  /api/portfolio/holdings:
+    get:
+      tags: [Portfolio]
+      summary: Get demo holdings
+      responses:
+        "200":
+          description: Holdings list
+  /api/risk/scan:
+    post:
+      tags: [Portfolio]
+      summary: Run a basic or deep portfolio risk scan
+      responses:
+        "200":
+          description: Risk factors, score, confidence, and alerts
+        "400":
+          $ref: "#/components/responses/InvalidRequest"
+  /api/approvals/scan:
+    post:
+      tags: [Portfolio]
+      summary: Scan token approvals
+      responses:
+        "200":
+          description: Risky approvals and recommendations
+  /api/rebalance/simulate:
+    post:
+      tags: [Portfolio]
+      summary: Simulate a policy-aware rebalance
+      responses:
+        "200":
+          description: Before and after allocation, risk, cost, and policy result
+        "400":
+          $ref: "#/components/responses/InvalidRequest"
+  /api/rebalance/execute:
+    post:
+      tags: [Portfolio]
+      summary: Run the simulation-only guarded execution flow
+      responses:
+        "200":
+          description: Simulation-only response; no transaction is broadcast
   /api/payments/session:
     post:
-      summary: Create demo x402/Upto payment session
+      tags: [Payments]
+      summary: Create a demo payment session
       responses:
-        "200": { description: Payment session }
+        "200":
+          description: Demo payment authorization session
   /api/payments/approve:
     post:
-      summary: Approve demo spending cap
+      tags: [Payments]
+      summary: Approve a demo spending cap
       responses:
-        "200": { description: Settled demo payment }
-  /api/reports/{id}:
-    get:
-      summary: Fetch report
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema: { type: string }
-      responses:
-        "200": { description: Report }
-        "404": { description: Missing report }
-  /api/alerts:
-    get:
-      summary: Fetch alerts
-      responses:
-        "200": { description: Alert list }
-  /api/webhooks:
-    post:
-      summary: Register demo webhook
-      responses:
-        "200": { description: Demo webhook registered }
+        "200":
+          description: Demo settlement result; no onchain payment occurs
+components:
+  responses:
+    InvalidRequest:
+      description: Request validation failed
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  schemas:
+    AgentQuery:
+      type: object
+      required: [requestingAgentId, intent, walletAddress]
+      properties:
+        requestingAgentId:
+          type: string
+          minLength: 3
+        intent:
+          type: string
+          enum: [portfolio.scan, approval.scan, risk.deep_analysis, rebalance.simulate, execution.preflight, report.generate]
+        walletAddress:
+          type: string
+        proposedAction:
+          $ref: "#/components/schemas/ProposedAction"
+        policy:
+          $ref: "#/components/schemas/Policy"
+        portfolioSnapshot:
+          $ref: "#/components/schemas/PortfolioSnapshot"
+        paymentSessionId:
+          type: string
+    ProposedAction:
+      type: object
+      required: [type]
+      properties:
+        type: { type: string }
+        from: { type: string }
+        to: { type: string }
+        amountUsd: { type: number, exclusiveMinimum: 0 }
+        recipient: { type: string }
+        chainId: { type: integer, minimum: 1 }
+        slippagePct: { type: number, minimum: 0, maximum: 10 }
+        transactionDataHash: { type: string }
+    Policy:
+      type: object
+      properties:
+        maxSingleAssetExposurePct: { type: number, exclusiveMinimum: 0, maximum: 100, default: 30 }
+        maxSlippagePct: { type: number, exclusiveMinimum: 0, maximum: 10, default: 0.5 }
+        minStablecoinPct: { type: number, minimum: 0, maximum: 100 }
+        blockedAssets: { type: array, items: { type: string } }
+        maxActionUsd: { type: number, exclusiveMinimum: 0 }
+        attestationTtlSeconds: { type: integer, minimum: 30, maximum: 900, default: 300 }
+        blockStaleData: { type: boolean, default: true }
+        blockLowConfidence: { type: boolean, default: false }
+    Holding:
+      type: object
+      required: [symbol, name, category, valueUsd, allocationPct, pnl24hPct, liquidityScore, volatilityScore, riskScore, confidence]
+      properties:
+        symbol: { type: string }
+        name: { type: string }
+        category: { type: string, enum: [xStock, RWA, Stablecoin, Cash] }
+        valueUsd: { type: number, minimum: 0 }
+        allocationPct: { type: number, minimum: 0, maximum: 100 }
+        pnl24hPct: { type: number }
+        liquidityScore: { type: number, minimum: 0, maximum: 100 }
+        volatilityScore: { type: number, minimum: 0, maximum: 100 }
+        riskScore: { type: number, minimum: 0, maximum: 100 }
+        confidence: { type: string, enum: [low, medium, high] }
+    Approval:
+      type: object
+      required: [asset, spender, allowance, riskLevel, reason, recommendedActions]
+      properties:
+        asset: { type: string }
+        spender: { type: string }
+        allowance: { type: string }
+        riskLevel: { type: string, enum: [low, medium, high, critical] }
+        reason: { type: string }
+        recommendedActions: { type: array, items: { type: string } }
+    PortfolioSnapshot:
+      type: object
+      description: Caller-supplied evidence. Phylax hashes and labels it but does not claim independent verification.
+      required: [holdings, observedAt, source]
+      properties:
+        holdings: { type: array, minItems: 1, items: { $ref: "#/components/schemas/Holding" } }
+        approvals: { type: array, items: { $ref: "#/components/schemas/Approval" } }
+        observedAt: { type: string, format: date-time }
+        source: { type: string }
+        sourceUrl: { type: string, format: uri }
+        chainId: { type: integer }
+    AgentResponse:
+      type: object
+      required: [requestId, intent, decision, confidence, paymentRequired, blockers, recommendations, policyCheck]
+      properties:
+        requestId: { type: string }
+        intent: { type: string }
+        decision: { type: string, enum: [approved, blocked, recommended, requires_payment] }
+        confidence: { type: string, enum: [low, medium, high] }
+        riskScoreBefore: { type: integer, minimum: 0, maximum: 100 }
+        riskScoreAfter: { type: integer, minimum: 0, maximum: 100 }
+        paymentRequired: { type: boolean }
+        blockers: { type: array, items: { type: string } }
+        recommendations: { type: array, items: { type: string } }
+        policyCheck: { type: string, enum: [passed, failed, requires_approval] }
+        attestationStatus: { type: string, enum: [signed, unavailable] }
+        attestation: { $ref: "#/components/schemas/SignedAttestation" }
+    SignedAttestation:
+      type: object
+      required: [payload, signature]
+      properties:
+        payload:
+          type: object
+          required: [version, attestationId, issuer, subject, intent, decision, actionHash, policyHash, evidenceHash, issuedAt, expiresAt, nonce]
+          additionalProperties: true
+        signature:
+          type: object
+          required: [algorithm, keyId, value]
+          properties:
+            algorithm: { type: string, enum: [Ed25519] }
+            keyId: { type: string }
+            value: { type: string, description: Base64url-encoded signature }
+    Error:
+      type: object
+      properties:
+        requestId: { type: string }
+        timestamp: { type: string, format: date-time }
+        error: { type: string }
+        status: { type: integer }
+        message: { type: string }

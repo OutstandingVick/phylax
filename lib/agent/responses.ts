@@ -1,4 +1,5 @@
 import type { AgentIntent, Alert } from "@/types";
+import type { SignedRiskAttestation } from "@/lib/attestations/service";
 
 export interface AgentResponse {
   requestId: string;
@@ -18,6 +19,15 @@ export interface AgentResponse {
   timestamp?: string;
   dataFreshness?: string;
   simulationOnly?: boolean;
+  evidence?: {
+    mode: "demo" | "caller-supplied";
+    source: string;
+    sourceUrl?: string;
+    observedAt: string;
+    independentlyVerified: boolean;
+  };
+  attestation?: SignedRiskAttestation;
+  attestationStatus?: "signed" | "unavailable";
 }
 
 export function paymentRequiredResponse(intent: AgentIntent): AgentResponse & {

@@ -5,6 +5,8 @@ const sections = [
   ["Overview", "Phylax exposes agent-readable portfolio risk, approval risk, rebalance simulation, and preflight endpoints."],
   ["Authentication", "Use Bearer API keys. Never send private keys. Demo mode accepts mocked requests only."],
   ["Agent intents", "portfolio.scan, approval.scan, risk.deep_analysis, rebalance.simulate, execution.preflight, report.generate"],
+  ["Signed decisions", "Execution preflights can return short-lived Ed25519 attestations bound to the exact action, policy, and evidence hash."],
+  ["Evidence inputs", "Supply a portfolioSnapshot to evaluate real caller-provided holdings. Provenance is preserved and never mislabelled as independently verified."],
   ["x402/Upto payment flow", "Deep analysis returns payment_required until an approved payment session is supplied."],
   ["Webhooks", "Register HTTPS URLs for alerts.created, policy.failed, report.ready, and payment.settled."],
   ["Error codes", "400 invalid_request, 402 payment_required, 403 policy_blocked, 500 internal_error"]
@@ -48,7 +50,7 @@ export default function DocsPage() {
       <Card>
         <CardHeader><CardTitle>Endpoints</CardTitle></CardHeader>
         <div className="grid gap-2 text-sm text-muted md:grid-cols-2">
-          {["GET /api/portfolio/overview", "GET /api/portfolio/holdings", "POST /api/risk/scan", "POST /api/approvals/scan", "POST /api/rebalance/simulate", "POST /api/rebalance/execute", "POST /api/payments/session", "POST /api/agent/query", "GET /api/reports/:id", "GET /api/alerts", "POST /api/webhooks"].map((endpoint) => <code key={endpoint} className="rounded bg-surface-soft p-3">{endpoint}</code>)}
+          {["POST /api/agent/query", "GET /api/attestations/public-key", "POST /api/attestations/verify", "GET /api/evidence", "GET /api/portfolio/overview", "GET /api/portfolio/holdings", "POST /api/risk/scan", "POST /api/approvals/scan", "POST /api/rebalance/simulate", "POST /api/rebalance/execute", "POST /api/payments/session", "GET /api/reports/:id", "GET /api/alerts", "POST /api/webhooks"].map((endpoint) => <code key={endpoint} className="rounded bg-surface-soft p-3">{endpoint}</code>)}
         </div>
       </Card>
       <div className="grid gap-4 lg:grid-cols-2">

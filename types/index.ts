@@ -44,6 +44,15 @@ export interface Approval {
   recommendedActions: string[];
 }
 
+export interface PortfolioEvidenceSnapshot {
+  holdings: Holding[];
+  approvals?: Approval[];
+  observedAt: string;
+  source: string;
+  sourceUrl?: string;
+  chainId?: number;
+}
+
 export interface Alert {
   id: string;
   title: string;

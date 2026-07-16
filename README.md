@@ -8,6 +8,12 @@ Phylax sits between agent intent, portfolio data, risk analysis, payment authori
 
 Phylax provides portfolio risk analysis, not financial advice. Execution is simulated in the MVP unless a verified wallet adapter is configured.
 
+## Verifiable Preflight
+
+`execution.preflight` can return a short-lived Ed25519 attestation bound to the exact proposed action, policy, evidence snapshot, decision, and expiry. Anyone can verify it with `GET /api/attestations/public-key` or `POST /api/attestations/verify`.
+
+The attestation proves what Phylax evaluated. Its evidence block separately states whether portfolio inputs were demo, caller-supplied, or independently verified.
+
 ## Demo Flow
 
 Run `/dashboard?demo=incident` and click **Run Incident Demo**. The flow shows:
@@ -56,6 +62,9 @@ npm run test
 - `POST /api/rebalance/simulate`
 - `POST /api/rebalance/execute`
 - `POST /api/agent/query`
+- `GET /api/attestations/public-key`
+- `POST /api/attestations/verify`
+- `GET /api/evidence`
 - `POST /api/payments/session`
 - `POST /api/payments/approve`
 - `GET /api/reports/:id`
@@ -63,6 +72,8 @@ npm run test
 - `POST /api/webhooks`
 
 OpenAPI starter: `docs/openapi.yaml`.
+
+Zero-dependency client and CLI: `sdk/`. A read-only OKX public-address evidence bridge is available at `examples/okx-live-preflight.mjs`.
 
 ## Agent Service
 
@@ -110,6 +121,7 @@ Typed demo adapters exist for OKX Onchain OS, Agentic Wallet, Market API, DEX, x
 
 ## Documentation
 
+- `docs/PRODUCT_STRATEGY.md`
 - `docs/ARCHITECTURE.md`
 - `docs/AGENT_INTEGRATION.md`
 - `docs/SECURITY.md`

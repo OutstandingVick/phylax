@@ -1,19 +1,44 @@
-# 90-Second Demo Script
+# Phylax 90-Second Demo Script
 
-0-10s: Open the landing page. Say: "Phylax is the autonomous guardian for xStocks and RWA portfolios."
+## 0-10 seconds — The problem
 
-10-20s: Click **Launch Phylax** or open `/dashboard?demo=incident`. The demo wallet loads in Phylax Capital workspace.
+**On screen:** Phylax landing page.
 
-20-30s: Portfolio scan starts. Point out portfolio value `$245,680.35`, TSLA.x at `37.8%`, risk `74 High`, and health `61 Watch`.
+**Voiceover:** "Autonomous agents can move capital, but who checks whether their actions are safe? Phylax is the risk and policy layer for xStocks and RWA portfolios."
 
-30-40s: Show alerts: Exposure Spike and Risky Approval for unlimited USDC spender `0x9ab...991`.
+## 10-25 seconds — Detect the incident
 
-40-50s: Click **Run Deep Analysis**. Phylax returns a 402-style payment requirement.
+**On screen:** Open the dashboard and run the incident demo.
 
-50-60s: Approve the Upto-style cap: max `3.00 USDC`, estimated `1.20-2.80 USDC`, purpose `Risk Deep Analysis`.
+**Voiceover:** "This portfolio has two critical issues: TSLA.x concentration is above policy limits, and USDC has an unlimited approval to an unknown spender. Phylax detects both and explains the risk."
 
-60-75s: Deep analysis settles with exact demo charge `2.18 USDC`. Rebalance recommendation appears.
+## 25-42 seconds — Block the unsafe action
 
-75-85s: Show simulation: risk `74 -> 49`, health `61 -> 78`, fee `$18.42`, slippage `0.21%`.
+**On screen:** Show the agent preflight for buying another $10,000 of TSLA.x.
 
-85-90s: Show agent-readable JSON. Emphasize: execution is allowed by policy but simulation-only in the MVP.
+**Voiceover:** "Before another agent executes this trade, it asks Phylax for a preflight. The purchase would increase concentration even further, so Phylax blocks it and returns a machine-readable reason."
+
+## 42-62 seconds — Prove the decision
+
+**On screen:** Open **Proof & Evidence** and click **Run proof flow**.
+
+**Voiceover:** "Phylax then binds the exact action, portfolio evidence, and owner policy into a short-lived Ed25519 attestation. Any agent can verify the decision against Phylax's public key. The signature is valid, and changing the decision would invalidate it."
+
+## 62-78 seconds — Recommend a safer path
+
+**On screen:** Show the rebalance simulation.
+
+**Voiceover:** "Phylax does not stop at warning. It simulates a safer rebalance, reducing portfolio risk from 74 to 49 and improving health from 61 to 78 before any capital moves."
+
+## 78-90 seconds — Close
+
+**On screen:** Show the signed JSON response and public API endpoint.
+
+**Voiceover:** "Phylax gives autonomous finance something it is missing: an independent, explainable, and verifiable checkpoint between agent intent and execution. Ask Phylax before capital moves."
+
+## Recording Notes
+
+- Target speaking length: approximately 175 words.
+- Keep the cursor moving only when changing views or clicking the proof button.
+- Pause briefly on **blocked**, **Signature valid**, and the before/after risk scores.
+- Do not claim that the MVP executes real trades or independently verifies caller-supplied evidence.

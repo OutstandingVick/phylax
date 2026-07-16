@@ -169,20 +169,20 @@ function HeroNetworkVisual() {
 
 function HeroSection() {
   return (
-    <section className={cn(shell, "pb-14 pt-16 md:pb-20 md:pt-24 lg:pb-24 lg:pt-28")}>
-      <div className="grid items-center gap-12 xl:grid-cols-[0.47fr_0.53fr]">
-        <div>
+    <section className={cn(shell, "pb-14 md:pb-20 lg:pb-24")}>
+      <div className="flex min-h-[calc(100svh-10rem)] items-center justify-center py-16 md:min-h-[calc(100svh-11rem)] md:py-20">
+        <div className="mx-auto w-full max-w-6xl text-center">
           <p className="text-xs font-black uppercase tracking-[0.26em] text-muted">Autonomous Risk Infrastructure</p>
-          <h1 className="mt-6 max-w-3xl text-wrap-balance font-display text-[2.15rem] font-black leading-[1.08] tracking-normal min-[430px]:text-[2.55rem] md:text-7xl xl:text-[5.9rem]">
+          <h1 className="mx-auto mt-6 max-w-6xl text-wrap-balance font-display text-[2.15rem] font-black leading-[1.08] tracking-normal min-[430px]:text-[2.55rem] md:text-7xl xl:text-[5.35rem]">
             <span className="block">The security layer</span>
             <span className="block">between agent intent</span>
             <span className="block">and portfolio execution.</span>
           </h1>
-          <p className="mt-7 max-w-2xl text-lg leading-8 text-muted md:text-xl">
+          <p className="mx-auto mt-7 max-w-3xl text-lg leading-8 text-muted md:text-xl">
             Phylax monitors xStocks and RWA portfolios, detects unsafe approvals, simulates safer allocations, and gives
             autonomous agents a security check before capital moves.
           </p>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
             <Link href="/dashboard?demo=incident" className={cn(buttonPrimary, "w-full sm:w-auto")}>
               Launch Phylax
               <ArrowRight className="h-4 w-4" />
@@ -191,11 +191,13 @@ function HeroSection() {
               See how it works
             </Link>
           </div>
-          <div className="mt-7 flex items-center gap-3 text-sm font-bold text-muted">
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3 text-sm font-bold text-muted">
             <ShieldCheck className="h-5 w-5 text-primary" />
             Built for autonomous agents. Secured by policy-controlled execution.
           </div>
         </div>
+      </div>
+      <div className="mx-auto max-w-5xl">
         <HeroNetworkVisual />
       </div>
     </section>
@@ -812,7 +814,7 @@ function FinalCTA() {
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Link href="/dashboard?demo=incident" className={buttonPrimary}>Launch Phylax</Link>
-            <Link href="/dashboard/docs" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-xl border border-[#CDE7C7]/25 px-6 text-sm font-black text-[#F7F7F2] transition hover:bg-[#202020]">
+            <Link href="/docs" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-xl border border-[#CDE7C7]/25 px-6 text-sm font-black text-[#F7F7F2] transition hover:bg-[#202020]">
               Read the Docs
             </Link>
           </div>
@@ -838,7 +840,13 @@ function PhylaxFooter() {
     if (label === "Rebalance Simulation") return "/dashboard/rebalance";
     if (label === "Approval Guard") return "/dashboard/alerts";
     if (label === "Portfolio Monitoring") return "/dashboard/portfolio";
-    if (["Documentation", "API Reference", "Agent Intents", "Architecture", "Security", "Risk Model", "x402/Upto", "Webhooks"].includes(label)) return "/dashboard/docs";
+    if (label === "Documentation") return "/docs";
+    if (label === "API Reference" || label === "Webhooks") return "/docs#api";
+    if (label === "Agent Intents") return "/docs#sdk";
+    if (label === "Architecture") return "/docs#how-it-works";
+    if (label === "Security") return "/docs#verification";
+    if (label === "Risk Model") return "/docs#problem";
+    if (label === "x402/Upto") return "/docs#business-model";
     return "#audiences";
   }
   return (
@@ -877,8 +885,8 @@ function PhylaxFooter() {
             <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" className="font-black hover:text-[#F7F7F2]">LinkedIn</a>
           </div>
           <div className="flex flex-wrap gap-5">
-            <Link href="/dashboard/docs" className="hover:text-[#F7F7F2]">Privacy</Link>
-            <Link href="/dashboard/docs" className="hover:text-[#F7F7F2]">Terms</Link>
+            <Link href="/docs#limitations" className="hover:text-[#F7F7F2]">Privacy</Link>
+            <Link href="/docs#limitations" className="hover:text-[#F7F7F2]">Terms</Link>
             <span>© 2026 Phylax. All rights reserved.</span>
           </div>
         </div>
