@@ -3,7 +3,7 @@ import { RedesignedHome } from "@/components/marketing/redesigned-home";
 
 export default function Home() {
   return (
-    <main className="min-h-screen overflow-x-hidden bg-background text-main">
+    <main className="phylax-page-gradient min-h-screen overflow-x-hidden text-main">
       <MarketingNav />
       <RedesignedHome />
     </main>

@@ -23,7 +23,7 @@ const config: Config = {
         mono: ["SFMono-Regular", "ui-monospace", "Menlo", "monospace"]
       },
       boxShadow: {
-        glow: "0 24px 80px rgba(56, 189, 248, 0.16)",
+        glow: "0 24px 80px rgba(107, 170, 117, 0.24)",
         panel: "0 16px 60px rgba(0, 0, 0, 0.22)"
       },
       borderRadius: {

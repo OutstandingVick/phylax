@@ -67,7 +67,7 @@ function SectionIntro({
   light?: boolean;
 }) {
   return (
-    <div className={cn(centered ? "mx-auto max-w-4xl text-center" : "max-w-4xl", light && "text-[#FAEDCA]")}>
+    <div className={cn(centered ? "mx-auto max-w-4xl text-center" : "max-w-4xl", light && "text-[#F7F7F2]")}>
       {eyebrow && (
         <p className="text-xs font-black uppercase tracking-[0.24em] text-primary">
           {eyebrow}
@@ -77,7 +77,7 @@ function SectionIntro({
         {title}
       </h2>
       {text && (
-        <p className={cn("mt-5 text-base leading-8 md:text-lg", light ? "text-[#C1DBB3]" : "text-muted")}>{text}</p>
+        <p className={cn("mt-5 text-base leading-8 md:text-lg", light ? "text-[#CDE7C7]" : "text-muted")}>{text}</p>
       )}
     </div>
   );
@@ -435,7 +435,7 @@ function EngineVisual({ visual }: { visual: string[] }) {
             </div>
           ))}
         </div>
-        <pre className="mt-5 overflow-x-auto rounded-2xl border border-border bg-[#0B1110] p-4 text-xs leading-6 text-[#FAEDCA]">
+        <pre className="mt-5 overflow-x-auto rounded-2xl border border-border bg-[#191919] p-4 text-xs leading-6 text-[#F7F7F2]">
 {`{
   "decision": "blocked",
   "confidence": "high",
@@ -498,26 +498,26 @@ const suiteTabs = [
 
 function SuiteVisual({ label }: { label: string }) {
   return (
-    <div className="rounded-[2rem] border border-[#C1DBB3]/20 bg-[#0B1110] p-5">
-      <div className="rounded-3xl bg-[#FAEDCA] p-5 text-[#0B1110]">
+    <div className="rounded-[2rem] border border-[#CDE7C7]/20 bg-[#191919] p-5">
+      <div className="rounded-3xl bg-[#F7F7F2] p-5 text-[#191919]">
         <div className="flex items-center justify-between">
           <p className="text-xs font-black uppercase tracking-[0.22em]">Phylax {label}</p>
-          <ShieldCheck className="h-5 w-5 text-[#4F9D5D]" />
+          <ShieldCheck className="h-5 w-5 text-[#6BAA75]" />
         </div>
         <div className="mt-7 grid gap-3">
           {["Policy", "Risk", "Payment", "Simulation"].map((item, index) => (
-            <div key={item} className="rounded-2xl border border-[#0B1110]/10 bg-white/55 p-4">
+            <div key={item} className="rounded-2xl border border-[#191919]/10 bg-white/55 p-4">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-black">{item}</span>
-                <span className={cn("rounded-full px-3 py-1 text-xs font-black", index === 0 ? "bg-[#FE5D26]/15 text-[#9A350F]" : "bg-[#4F9D5D]/15 text-[#2D6A39]")}>
+                <span className={cn("rounded-full px-3 py-1 text-xs font-black", index === 0 ? "bg-[#F15025]/15 text-[#9A350F]" : "bg-[#6BAA75]/15 text-[#2D6A39]")}>
                   {index === 0 ? "Blocked" : "Checked"}
                 </span>
               </div>
             </div>
           ))}
         </div>
-        <div className="mt-6 h-36 rounded-2xl bg-[linear-gradient(135deg,#4F9D5D,#F2C078_55%,#FE5D26)] p-1">
-          <div className="flex h-full items-center justify-center rounded-[0.9rem] bg-[#0B1110]/90">
+        <div className="mt-6 h-36 rounded-2xl bg-[linear-gradient(135deg,#6BAA75,#84DD63_55%,#F15025)] p-1">
+          <div className="flex h-full items-center justify-center rounded-[0.9rem] bg-[#191919]/90">
             <PhylaxMark className="h-20 w-16" />
           </div>
         </div>
@@ -530,7 +530,7 @@ function ProductSuite() {
   const [active, setActive] = useState(0);
   const current = suiteTabs[active];
   return (
-    <section id="product-suite" className="bg-[#0B1110] text-[#FAEDCA]">
+    <section id="product-suite" className="bg-[#191919] text-[#F7F7F2]">
       <div className={cn(shell, sectionY)}>
         <SectionIntro
           centered
@@ -545,7 +545,7 @@ function ProductSuite() {
               type="button"
               className={cn(
                 "focus-ring min-h-12 min-w-44 rounded-full border px-4 text-sm font-black transition",
-                active === index ? "border-[#7EBC89] bg-[#7EBC89] text-[#0B1110]" : "border-[#C1DBB3]/25 text-[#C1DBB3] hover:bg-[#121A17]"
+                active === index ? "border-[#84DD63] bg-[#84DD63] text-[#191919]" : "border-[#CDE7C7]/25 text-[#CDE7C7] hover:bg-[#202020]"
               )}
               role="tab"
               aria-selected={active === index}
@@ -555,11 +555,11 @@ function ProductSuite() {
             </button>
           ))}
         </div>
-        <div className="mt-10 grid items-center gap-8 rounded-[2rem] border border-[#C1DBB3]/18 bg-[#121A17] p-5 md:p-8 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="mt-10 grid items-center gap-8 rounded-[2rem] border border-[#CDE7C7]/18 bg-[#202020] p-5 md:p-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#7EBC89]">{current[0]}</p>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#84DD63]">{current[0]}</p>
             <h3 className="mt-4 max-w-2xl font-display text-4xl font-black leading-tight md:text-5xl">{current[1]}</h3>
-            <p className="mt-5 max-w-xl text-lg leading-8 text-[#C1DBB3]">{current[2]}</p>
+            <p className="mt-5 max-w-xl text-lg leading-8 text-[#CDE7C7]">{current[2]}</p>
             <Link href={current[4]} className={cn(buttonPrimary, "mt-8")}>{current[3]} <ArrowRight className="h-4 w-4" /></Link>
           </div>
           <SuiteVisual label={current[0]} />
@@ -633,29 +633,29 @@ function IncidentCarousel() {
 function ResourceBanner() {
   return (
     <section className={cn(shell, "py-10 md:py-16")}>
-      <div className="grid items-center gap-10 rounded-[2.5rem] border border-[#C1DBB3]/18 bg-[#0B1110] p-6 text-[#FAEDCA] shadow-panel md:p-12 lg:grid-cols-[1fr_0.75fr]">
+      <div className="grid items-center gap-10 rounded-[2.5rem] border border-[#CDE7C7]/18 bg-[#191919] p-6 text-[#F7F7F2] shadow-panel md:p-12 lg:grid-cols-[1fr_0.75fr]">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.24em] text-[#7EBC89]">Architecture Brief</p>
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-[#84DD63]">Architecture Brief</p>
           <h2 className="mt-5 max-w-3xl font-display text-4xl font-black leading-tight md:text-6xl">
             How Phylax protects autonomous capital.
           </h2>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-[#C1DBB3]">
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-[#CDE7C7]">
             A practical guide to portfolio monitoring, agent preflight checks, payment-gated analysis, policy enforcement,
             and simulation-first execution for xStocks and RWA workflows.
           </p>
           <Link href="/dashboard/docs" className={cn(buttonPrimary, "mt-8")}>Read the architecture brief</Link>
         </div>
-        <div className="rounded-[2rem] border border-[#C1DBB3]/20 bg-[#FAEDCA] p-8 text-[#0B1110]">
+        <div className="rounded-[2rem] border border-[#CDE7C7]/20 bg-[#F7F7F2] p-8 text-[#191919]">
           <div className="flex items-center gap-3">
             <PhylaxMark className="h-10 w-9" />
-            <span className="brand-wordmark text-[1.05rem] text-[#0B1110]">
+            <span className="brand-wordmark text-[1.05rem] text-[#191919]">
               PHYL<span className="brand-wordmark-a">A</span>X
             </span>
           </div>
-          <div className="mt-16 rounded-3xl bg-[#0B1110] p-6 text-[#FAEDCA]">
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#7EBC89]">Report</p>
+          <div className="mt-16 rounded-3xl bg-[#191919] p-6 text-[#F7F7F2]">
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#84DD63]">Report</p>
             <h3 className="mt-5 font-display text-3xl font-black leading-tight">The Autonomous Portfolio Risk Stack</h3>
-            <p className="mt-4 text-sm leading-6 text-[#C1DBB3]">Monitoring, preflight, payments, simulation, and guardrails.</p>
+            <p className="mt-4 text-sm leading-6 text-[#CDE7C7]">Monitoring, preflight, payments, simulation, and guardrails.</p>
           </div>
         </div>
       </div>
@@ -728,7 +728,7 @@ function WhyPhylax() {
     "Monitor portfolio health"
   ];
   return (
-    <section className="overflow-hidden bg-[#0B1110] text-[#FAEDCA]">
+    <section className="overflow-hidden bg-[#191919] text-[#F7F7F2]">
       <div className={cn(shell, sectionY)}>
         <SectionIntro
           centered
@@ -740,17 +740,17 @@ function WhyPhylax() {
           {differentiators.map((item) => {
             const Icon = item.icon;
             return (
-              <div key={item.title} className="rounded-3xl border border-[#C1DBB3]/18 bg-[#121A17] p-6">
-                <Icon className="h-6 w-6 text-[#7EBC89]" />
+              <div key={item.title} className="rounded-3xl border border-[#CDE7C7]/18 bg-[#202020] p-6">
+                <Icon className="h-6 w-6 text-[#84DD63]" />
                 <h3 className="mt-8 font-display text-xl font-black">{item.title}</h3>
-                <p className="mt-4 text-sm leading-7 text-[#C1DBB3]">{item.text}</p>
+                <p className="mt-4 text-sm leading-7 text-[#CDE7C7]">{item.text}</p>
               </div>
             );
           })}
         </div>
         <div className="chip-marquee mt-12 flex gap-3 overflow-hidden py-2" tabIndex={0}>
           {[...chips, ...chips].map((chip, index) => (
-            <span key={`${chip}-${index}`} className="shrink-0 rounded-xl border border-[#C1DBB3]/16 bg-[#1A241F] px-4 py-3 text-sm font-bold text-[#C1DBB3]">
+            <span key={`${chip}-${index}`} className="shrink-0 rounded-xl border border-[#CDE7C7]/16 bg-[#263428] px-4 py-3 text-sm font-bold text-[#CDE7C7]">
               {chip}
             </span>
           ))}
@@ -801,18 +801,18 @@ function LatestFromPhylax() {
 function FinalCTA() {
   return (
     <section className={cn(shell, "py-10 md:py-16")}>
-      <div className="relative overflow-hidden rounded-[2.5rem] border border-[#C1DBB3]/18 bg-[#0B1110] p-6 text-[#FAEDCA] shadow-panel md:p-12 lg:p-16">
+      <div className="relative overflow-hidden rounded-[2.5rem] border border-[#CDE7C7]/18 bg-[#191919] p-6 text-[#F7F7F2] shadow-panel md:p-12 lg:p-16">
         <div className="absolute right-6 top-1/2 hidden -translate-y-1/2 opacity-25 lg:block">
           <PhylaxMark className="h-72 w-60" />
         </div>
         <div className="relative max-w-3xl">
           <h2 className="font-display text-4xl font-black leading-tight md:text-6xl">Ready to give every agent a guardian?</h2>
-          <p className="mt-6 text-lg leading-8 text-[#C1DBB3]">
+          <p className="mt-6 text-lg leading-8 text-[#CDE7C7]">
             Monitor portfolio risk, detect unsafe approvals, simulate safer outcomes, and enforce policy before capital moves.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Link href="/dashboard?demo=incident" className={buttonPrimary}>Launch Phylax</Link>
-            <Link href="/dashboard/docs" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-xl border border-[#C1DBB3]/25 px-6 text-sm font-black text-[#FAEDCA] transition hover:bg-[#121A17]">
+            <Link href="/dashboard/docs" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-xl border border-[#CDE7C7]/25 px-6 text-sm font-black text-[#F7F7F2] transition hover:bg-[#202020]">
               Read the Docs
             </Link>
           </div>
@@ -842,13 +842,13 @@ function PhylaxFooter() {
     return "#audiences";
   }
   return (
-    <footer className="bg-[#0B1110] text-[#FAEDCA]">
+    <footer className="bg-[#191919] text-[#F7F7F2]">
       <div className={cn(shell, "relative overflow-hidden py-16 md:py-24")}>
         <PhylaxMark className="absolute left-0 top-16 h-[34rem] w-[28rem] opacity-[0.04]" />
         <div className="relative grid gap-12 lg:grid-cols-[0.9fr_1.6fr]">
           <div>
             <PhylaxLogo />
-            <p className="mt-6 max-w-sm text-lg leading-8 text-[#C1DBB3]">Protecting value. Empowering agents. Securing the future.</p>
+            <p className="mt-6 max-w-sm text-lg leading-8 text-[#CDE7C7]">Protecting value. Empowering agents. Securing the future.</p>
           </div>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
             {footerColumns.map(([title, links]) => (
@@ -858,7 +858,7 @@ function PhylaxFooter() {
                   {links.map((label) => {
                     const href = hrefFor(label);
                     const external = href.startsWith("http");
-                    const className = "focus-ring rounded-md text-sm font-semibold text-[#C1DBB3] hover:text-[#FAEDCA]";
+                    const className = "focus-ring rounded-md text-sm font-semibold text-[#CDE7C7] hover:text-[#F7F7F2]";
                     return external ? (
                       <a key={label} href={href} target="_blank" rel="noreferrer" className={className}>{label}</a>
                     ) : (
@@ -870,15 +870,15 @@ function PhylaxFooter() {
             ))}
           </div>
         </div>
-        <div className="relative mt-16 flex flex-col justify-between gap-5 border-t border-[#C1DBB3]/18 pt-8 text-sm text-[#C1DBB3] md:flex-row md:items-center">
+        <div className="relative mt-16 flex flex-col justify-between gap-5 border-t border-[#CDE7C7]/18 pt-8 text-sm text-[#CDE7C7] md:flex-row md:items-center">
           <div className="flex gap-5">
-            <a href="https://x.com" target="_blank" rel="noreferrer" className="font-black hover:text-[#FAEDCA]">X</a>
-            <a href="https://github.com/OutstandingVick/phylax" target="_blank" rel="noreferrer" className="font-black hover:text-[#FAEDCA]">GitHub</a>
-            <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" className="font-black hover:text-[#FAEDCA]">LinkedIn</a>
+            <a href="https://x.com" target="_blank" rel="noreferrer" className="font-black hover:text-[#F7F7F2]">X</a>
+            <a href="https://github.com/OutstandingVick/phylax" target="_blank" rel="noreferrer" className="font-black hover:text-[#F7F7F2]">GitHub</a>
+            <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" className="font-black hover:text-[#F7F7F2]">LinkedIn</a>
           </div>
           <div className="flex flex-wrap gap-5">
-            <Link href="/dashboard/docs" className="hover:text-[#FAEDCA]">Privacy</Link>
-            <Link href="/dashboard/docs" className="hover:text-[#FAEDCA]">Terms</Link>
+            <Link href="/dashboard/docs" className="hover:text-[#F7F7F2]">Privacy</Link>
+            <Link href="/dashboard/docs" className="hover:text-[#F7F7F2]">Terms</Link>
             <span>© 2026 Phylax. All rights reserved.</span>
           </div>
         </div>

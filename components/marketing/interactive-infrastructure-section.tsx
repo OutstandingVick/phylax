@@ -305,7 +305,7 @@ export function InteractiveInfrastructureSection() {
     <section
       ref={ref}
       id="product"
-      className="relative isolate mx-auto max-w-[1440px] overflow-hidden border-b border-[var(--phx-border)] bg-[var(--phx-bg)] px-8 py-10 [--phx-accent:#FE5D26] [--phx-bg:#0B1110] [--phx-border:rgba(193,219,179,0.18)] [--phx-main:#FAEDCA] [--phx-muted:#C1DBB3] [--phx-primary-soft:#C1DBB3] [--phx-primary:#7EBC89] [--phx-surface-soft:#1A241F] [--phx-surface:#121A17] md:py-14"
+      className="relative isolate mx-auto max-w-[1440px] overflow-hidden border-b border-[var(--phx-border)] bg-[var(--phx-bg)] px-8 py-10 [--phx-accent:#F15025] [--phx-bg:#191919] [--phx-border:rgba(193,219,179,0.18)] [--phx-main:#F7F7F2] [--phx-muted:#CDE7C7] [--phx-primary-soft:#CDE7C7] [--phx-primary:#84DD63] [--phx-surface-soft:#263428] [--phx-surface:#202020] md:py-14"
     >
       <AnimatedGridBackground activeIndex={Math.max(0, activeIndex)} reduceMotion={reduceMotion} />
       <div className="relative z-10">
